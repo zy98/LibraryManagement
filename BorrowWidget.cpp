@@ -6,11 +6,26 @@ BorrowWidget::BorrowWidget(QWidget *parent) :
     ui(new Ui::BorrowWidget)
 {
     ui->setupUi(this);
-    //ui->group_find->hide();
+    ui->borrow->setStatusFor(Reader);
+    ui->reader->setStatusFor(Display);
 }
 
 BorrowWidget::~BorrowWidget()
 {
     delete ui;
+}
+
+//for BorrowAdmin Reader
+void BorrowWidget::setStatusFor(WidgetStatus status)
+{
+    if(status == BorrowAdmin)
+    {
+        ui->borrow->setStatusFor(BorrowAdmin);
+        ui->book->setStatusFor(BorrowAdmin);
+        return;
+    }
+
+    ui->borrow->setStatusFor(Reader);
+    ui->book->setStatusFor(Reader);
 }
 

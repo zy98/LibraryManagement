@@ -25,9 +25,8 @@ public:
 
     void readRecord(const QSqlRecord& rec);
     void writeRecord(QSqlRecord& rec);
-    void setWidgetStatus(int status);
-    void setForDisplay();
-    void setForBookAdmin();
+
+    void setStatusFor(WidgetStatus status);
 
 public slots:
     void clear();
@@ -36,6 +35,10 @@ public slots:
 
 protected:
     //void closeEvent(QCloseEvent* event);
+
+    void setStatusForDisplay();
+    void setStatusForCreate();
+    void setStatusForAlter();
 
 private slots:
     void on_btn_submit_clicked();

@@ -98,32 +98,58 @@ void BookWidget::initModel()
 //    qDebug()<<"BookWidget::closeEvent(QCloseEvent* event)";
 //}
 
+//for BookAdmin BorrowAdmin Reader
+void BookWidget::setStatusFor(WidgetStatus status)
+{
+    if(status == BookAdmin)
+    {
+        ui->groupBorrow->hide();
+        ui->groupMatch->show();
+        return;
+    }
+    else if(status == BorrowAdmin)
+    {
+        ui->groupBorrow->show();
+        ui->groupMatch->hide();
+        return;
+    }
+
+    ui->groupBorrow->hide();
+    ui->groupMatch->hide();
+}
+
 void BookWidget::newItem(bool checked)
 {
     if(checked)
     {
         bookInfo->clear();
-        emit status_changed(1);
+        bookInfo->setStatusFor(Create);
         bookInfo->show();
+        return;
     }
-    else
-    {
-        emit status_changed(0);
-        bookInfo->hide();
-    }
+
+    bookInfo->setStatusFor(Display);
+    bookInfo->hide();
 }
 
 void BookWidget::changeItem(bool checked)
 {
-    model->setEditStrategy(checked ? QSqlTableModel::OnFieldChange : QSqlTableModel::OnManualSubmit);
-    emit status_changed((checked ? 2 : 0));
+    if(checked)
+    {
+        model->setEditStrategy(QSqlTableModel::OnFieldChange);
+        bookInfo->show();
+        bookInfo->setStatusFor(Alter);
+        return;
+    }
+    model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    bookInfo->hide();
+    bookInfo->setStatusFor(Display);
 }
 //void BookWidget::submitItem(){}
 void BookWidget::changePwd(){}
 
 void BookWidget::createItem(QSqlRecord& rec)
 {
-    qDebug()<<"createItem";
     if(!rec.isEmpty())
     {
         bool ok = false;

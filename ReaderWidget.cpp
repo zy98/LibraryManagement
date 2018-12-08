@@ -24,14 +24,9 @@ ReaderWidget::ReaderWidget(QWidget *parent) :
     view = ui->tableView;
     tabModel = model;
 
-    //ui->reader_info->hide();
-
-    connect(this,SIGNAL(status_changed(int)),ui->reader_info,SLOT(setWidgetStatus(int)));
-
-    connect(ui->reader_info,SIGNAL(new_data(QSqlRecord&)),this,SLOT(createItem(QSqlRecord&)));
+    connect(ui->info,SIGNAL(new_data(QSqlRecord&)),this,SLOT(createItem(QSqlRecord&)));
 
     connect(ui->cmb_type,SIGNAL(currentIndexChanged(int)),this,SLOT(typeIndexChanged(int)));
-
 }
 
 void ReaderWidget::initView()
@@ -49,7 +44,7 @@ void ReaderWidget::initView()
     //初始化读者类别
     auto type = model->relationModel(4);
     //qDebug()<<model->fieldIndex("rdType");无法获取正确数据？？？
-    //ui->reader_info->setTypeModel(type, type->fieldIndex("typeName"));
+    //ui->info->setTypeModel(type, type->fieldIndex("typeName"));
     ui->cmb_type->setModel(type);
     ui->cmb_type->setModelColumn(1);
 
@@ -90,18 +85,14 @@ void ReaderWidget::initModel()
     //设置关系外键
     model->setRelation(model->fieldIndex("rdType"),QSqlRelation("ReaderType","rdType","typeName"));
 
-    //映射数据到reader_info
+    //映射数据到info
     QDataWidgetMapper* mapper = new QDataWidgetMapper(this);
     mapper->setModel(model);
     mapper->setSubmitPolicy(QDataWidgetMapper::AutoSubmit);
     mapper->setItemDelegate(new QItemDelegate(mapper));
-    ui->reader_info->setWidgetMapper(mapper);
+    ui->info->setWidgetMapper(mapper);
     connect(ui->tableView,SIGNAL(clicked(const QModelIndex&)),
             mapper,SLOT(setCurrentModelIndex(const QModelIndex&)));
-
-//    connect(ui->tableView->selectionModel(),&QItemSelectionModel::currentRowChanged,
-//            mapper,&QDataWidgetMapper::setCurrentModelIndex);
-
 
     if(!model->select())
         showError("获取数据出错，请联系数据库管理员");
@@ -122,23 +113,35 @@ bool ReaderWidget::setRecord(const QSqlRecord& rec)
     bool ret = Widget::setRecord(rec);
 
     //设置read_info的Record，用于保存read的字段信息
-    ui->reader_info->readRecord(this->record);
+    ui->info->readRecord(this->record);
 
     return ret;
 }
 
 void  ReaderWidget::newItem(bool checked)
 {
-    emit status_changed(checked ? 1 : 0);
+    if(checked)
+    {
+        ui->info->setStatusFor(Create);
+        ui->info->clear();
+        ui->tableView->setEnabled(true);
+        return;
+    }
 
-    ui->reader_info->clear();
-    ui->tableView->setEnabled(!checked);
+    ui->info->setStatusFor(Display);
+    ui->tableView->setEnabled(false);
 }
 
 void  ReaderWidget::changeItem(bool checked)
 {
-    model->setEditStrategy(checked ? QSqlTableModel::OnFieldChange : QSqlTableModel::OnManualSubmit);
-    emit status_changed(checked ? 2 : 0);
+    if(checked)
+    {
+        model->setEditStrategy(QSqlTableModel::OnFieldChange);
+        ui->info->setStatusFor(Alter);
+        return;
+    }
+    model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    ui->info->setStatusFor(Display);
 }
 
 //void  ReaderWidget::deleteItem()

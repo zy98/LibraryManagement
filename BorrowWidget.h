@@ -15,20 +15,22 @@ public:
     explicit BorrowWidget(QWidget *parent = nullptr);
     ~BorrowWidget();
 
+    void setStatusFor(WidgetStatus status);
+
 public slots:
-    virtual void newItem(bool checked){}
-    virtual void changeItem(bool checked){}
-    virtual void deleteItem(){}
-    virtual void submitItem(){}
-    virtual void changePwd(){}
+    void newItem(bool checked){}
+    void changeItem(bool checked){}
+    void deleteItem(){}
+    void submitItem(){}
+    void changePwd(){}
 
-    virtual void createItem(const QSqlRecord& rec){}
+    void createItem(const QSqlRecord& rec){}
 
-    virtual bool setRecord(const QSqlRecord& rec){return true;}
+    bool setRecord(const QSqlRecord& rec){return true;}
 
 protected:
-    virtual void initView(){}
-    virtual void initModel(){}
+    void initView(){}
+    void initModel(){}
 
 private:
     Ui::BorrowWidget *ui;

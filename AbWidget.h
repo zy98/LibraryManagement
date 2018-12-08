@@ -3,6 +3,17 @@
 
 #include <QWidget>
 
+enum WidgetStatus
+{
+    ReaderAdmin = 1,
+    BorrowAdmin = 2,
+    BookAdmin = 3,
+    Reader = 4,
+    Display = 5,
+    Create = 6,
+    Alter = 7
+};
+
 class AbWidget : public QWidget
 {
     Q_OBJECT
@@ -16,6 +27,8 @@ public:
     virtual ~AbWidget() = 0;
 
     static QString TU8(const char* s);
+
+    virtual void setStatusFor(WidgetStatus status) = 0;
 
 protected:
     QString U8(const char* s);

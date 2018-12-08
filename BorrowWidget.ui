@@ -76,12 +76,12 @@
      <property name="currentIndex">
       <number>0</number>
      </property>
-     <widget class="BookWidget" name="tab">
+     <widget class="BookWidget" name="book">
       <attribute name="title">
        <string>借书</string>
       </attribute>
      </widget>
-     <widget class="BorrowInfo" name="tab_2">
+     <widget class="BorrowInfo" name="borrow">
       <attribute name="title">
        <string>还书</string>
       </attribute>

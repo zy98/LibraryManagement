@@ -90,17 +90,24 @@ void BookInfo::writeRecord(QSqlRecord& rec)
     rec.setValue(14,ui->bkNum->text());
 }
 
-void BookInfo::setWidgetStatus(int status)
+//for create alter display
+void BookInfo::setStatusFor(WidgetStatus status)
 {
-    //flags == status;
+    if(status == Create || status == Alter)
+        setEnable(true);
+    else
+        setEnable(false);
 }
 
-void BookInfo::setForDisplay()
+void BookInfo::setStatusForDisplay()
 {
     setEnable(false);
 }
-
-void BookInfo::setForBookAdmin()
+void BookInfo::setStatusForCreate()
+{
+    setEnable(true);
+}
+void BookInfo::setStatusForAlter()
 {
     setEnable(true);
 }

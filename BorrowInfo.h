@@ -17,13 +17,13 @@ public:
 
     void setWidgetMapper(QDataWidgetMapper* mapper);
 
+    void setStatusFor(WidgetStatus status);
+
 public slots:
     void readRecord(const QSqlRecord &rec){ record = rec; }
 
     void writeRecord(QSqlRecord& rec);
 
-    //设置Widget状态的函数;012->显示 新建 修改
-    void setWidgetStatus(int status);
     void clear();
 
     void setEnable(bool flag);

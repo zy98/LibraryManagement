@@ -19,6 +19,8 @@ public:
     explicit BookWidget(QWidget *parent = nullptr);
     ~BookWidget();
 
+    void setStatusFor(WidgetStatus status);
+
 public slots:
     void newItem(bool checked);
     void changeItem(bool checked);

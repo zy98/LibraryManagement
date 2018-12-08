@@ -21,6 +21,8 @@ public:
     //设置控件映射
     void setWidgetMapper(QDataWidgetMapper* mapper);
 
+    void setStatusFor(WidgetStatus status);
+
     //初始化读者类型控件
     //void setTypeModel(QAbstractItemModel *model, int col);
 
@@ -34,9 +36,6 @@ public slots:
     void readRecord(const QSqlRecord &rec);
 
     void writeRecord(QSqlRecord& rec);
-
-    //设置Widget状态的函数;012->显示 新建 修改
-    void setWidgetStatus(int status);
 
 private slots:
     //挂失按钮，0表示正常，1表示挂失，根据状态设置证件状态和挂失按钮

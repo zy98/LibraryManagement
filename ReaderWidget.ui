@@ -191,7 +191,7 @@
     </layout>
    </item>
    <item>
-    <widget class="ReaderInfo" name="reader_info" native="true"/>
+    <widget class="ReaderInfo" name="info" native="true"/>
    </item>
   </layout>
  </widget>

@@ -13,12 +13,11 @@ class Widget : public AbWidget
 {
     Q_OBJECT
 
-signals:
-    void status_changed(int status);
-
 public:
     explicit Widget(QWidget *parent = nullptr);
     ~Widget();
+
+    void setStatusFor(WidgetStatus status){}
 
 public slots:
     void first();

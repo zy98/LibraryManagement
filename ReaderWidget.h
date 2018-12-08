@@ -13,9 +13,6 @@ class ReaderWidget : public Widget
 {
     Q_OBJECT
 
-signals:
-
-
 public:
     explicit ReaderWidget(QWidget *parent = nullptr);
     ~ReaderWidget();
@@ -23,19 +20,12 @@ public:
 public slots:
     void newItem(bool checked);
     void changeItem(bool checked);
-    //void deleteItem();
-    //void submitItem();
     void changePwd();
 
     bool setRecord(const QSqlRecord& rec);
 
-    //void createItem(QSqlRecord &rec);
-
 protected:
     void closeEvent(QCloseEvent* event);
-
-    //void submitData();
-    //inline QString lastError();
 
 private slots:
     void on_btn_find_clicked();

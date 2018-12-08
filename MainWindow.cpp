@@ -72,6 +72,7 @@ Widget *MainWindow::initWiget(const QSqlRecord& rec)
     else if(flag == 2)
     {
         auto w = new BorrowWidget(this);
+        w->setStatusFor(BorrowAdmin);
         w->setRecord(rec);
         widget = w;
         connectWidget();
@@ -79,14 +80,17 @@ Widget *MainWindow::initWiget(const QSqlRecord& rec)
     else if(flag == 3)
     {
         auto w = new BookWidget(this);
+        w->setStatusFor(BookAdmin);
         w->setRecord(rec);
         widget = w;
         connectWidget();
     }
     else
     {
-        widget = new Widget(this);
-        widget->setRecord(rec);
+        auto w = new BorrowWidget(this);
+        w->setStatusFor(Reader);
+        w->setRecord(rec);
+        widget = w;
         connectWidget();
     }
 

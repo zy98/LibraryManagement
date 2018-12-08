@@ -19,15 +19,20 @@ void BorrowInfo::setWidgetMapper(QDataWidgetMapper* mapper)
 
 }
 
+//for BorrowAdmin Reader
+void BorrowInfo::setStatusFor(WidgetStatus status)
+{
+    if(status == BorrowAdmin)
+        ui->groupBorrow->show();
+    else
+        ui->groupBorrow->hide();
+}
+
 void BorrowInfo::writeRecord(QSqlRecord& rec)
 {
 
 }
-//设置Widget状态的函数;012->显示 新建 修改
-void BorrowInfo::setWidgetStatus(int status)
-{
 
-}
 void BorrowInfo::clear()
 {
 

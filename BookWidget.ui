@@ -124,7 +124,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QGroupBox" name="groupBox_3">
+      <widget class="QGroupBox" name="groupBorrow">
        <property name="title">
         <string>^_^</string>
        </property>
@@ -142,11 +142,11 @@
     </layout>
    </item>
    <item>
-    <widget class="QGroupBox" name="groupBox_2">
+    <widget class="QGroupBox" name="groupMatch">
      <property name="title">
       <string>筛选</string>
      </property>
-     <layout class="QGridLayout" name="groupMatch" columnstretch="0,2,2,2,0,2">
+     <layout class="QGridLayout" name="gridlayout_match" columnstretch="0,2,2,2,0,2">
       <property name="topMargin">
        <number>5</number>
       </property>

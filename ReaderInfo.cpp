@@ -16,7 +16,7 @@ ReaderInfo::ReaderInfo(QWidget *parent) :
     ui->cmb_status->addItem("1","loss");
     ui->cmb_status->addItem("2","discard");
 
-    setWidgetStatus(0);//默认初始化为display状态
+    setStatusFor(Display);
 }
 
 ReaderInfo::~ReaderInfo()
@@ -28,7 +28,6 @@ void ReaderInfo::readRecord(const QSqlRecord& rec)
 {    
     if(!rec.isEmpty())
     {
-
         record = rec;
         ui->edit_id->setText(record.value(0).toString());
         ui->edit_pwd->setText(record.value(1).toString());
@@ -74,16 +73,26 @@ void ReaderInfo::setWidgetMapper(QDataWidgetMapper *mapper)
     mapper->addMapping(ui->edit_mail,12);
 }
 
-//设置Widget状态的函数;0-display;1-update;2-create
-void ReaderInfo::setWidgetStatus(int status)
+//for create alter display
+void ReaderInfo::setStatusFor(WidgetStatus status)
 {
-    flag = status;
-    status == 1 ? ui->btn_submit->show() : ui->btn_submit->hide();
-    setEnable(status);
-    ui->btn_loss->setEnabled(!status);
-    ui->btn_pwd->setEnabled(!status);
-
-    if(status == 1) ui->edit_id->setEnabled(true);
+    if(status == Create)
+    {
+        ui->btn_submit->show();
+        setEnable(true);
+        ui->edit_id->setEnabled(true);
+        ui->btn_loss->setEnabled(false);
+        ui->btn_pwd->setEnabled(false);
+    }
+    else if(status == Alter)
+    {
+        setEnable(true);
+        ui->edit_id->setEnabled(false);
+    }
+    else
+    {
+        setEnable(false);
+    }
 }
 
 void ReaderInfo::on_btn_loss_clicked()
@@ -123,8 +132,7 @@ void ReaderInfo::on_btn_submit_clicked()
     QSqlRecord record;
     writeRecord(record);
 
-    if(flag == 1)
-        emit new_data(record);
+    emit new_data(record);
 
     ui->btn_submit->setEnabled(true);
 }
@@ -162,6 +170,9 @@ void ReaderInfo::setEnable(bool flag)
     ui->photo->setEnabled(flag);
     ui->edit_tele->setEnabled(flag);
     ui->edit_mail->setEnabled(flag);
+
+    ui->btn_loss->setEnabled(flag);
+    ui->btn_pwd->setEnabled(flag);
 }
 
 void ReaderInfo::clear()

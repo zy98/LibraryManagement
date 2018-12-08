@@ -19,14 +19,14 @@ public:
 
     virtual void setWidgetMapper(QDataWidgetMapper* mapper) = 0;
 
+    virtual void setStatusFor(WidgetStatus status) = 0;
+
 public slots:    
     //如果record不为空，则通过record设置显示数据;record与所需数据不符的情形未定义
     virtual void readRecord(const QSqlRecord &rec){ record = rec; }
 
     virtual void writeRecord(QSqlRecord& rec) = 0;
 
-    //设置Widget状态的函数;012->显示 新建 修改
-    virtual void setWidgetStatus(int status) = 0;
     virtual void clear() = 0;
 
     virtual void setEnable(bool flag) = 0;
