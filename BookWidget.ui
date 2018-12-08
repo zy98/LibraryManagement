@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>BookWidget</class>
+ <widget class="QWidget" name="BookWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1356</width>
+    <height>688</height>
+   </rect>
+  </property>
+  <property name="font">
+   <font>
+    <family>微软雅黑</family>
+    <pointsize>12</pointsize>
+   </font>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <property name="toolTip">
+   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;0,2,2,2,0,2&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QGroupBox" name="groupBox">
+       <property name="toolTip">
+        <string/>
+       </property>
+       <property name="title">
+        <string>查找</string>
+       </property>
+       <layout class="QGridLayout" name="groupFind">
+        <property name="topMargin">
+         <number>5</number>
+        </property>
+        <property name="bottomMargin">
+         <number>5</number>
+        </property>
+        <item row="0" column="0">
+         <widget class="QLabel" name="label_7">
+          <property name="text">
+           <string>图书编号</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QLineEdit" name="edit_id">
+          <property name="clearButtonEnabled">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="2">
+         <widget class="QLabel" name="label_9">
+          <property name="text">
+           <string> 出版社</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="3">
+         <widget class="QLineEdit" name="edit_pub">
+          <property name="clearButtonEnabled">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="4">
+         <widget class="QLabel" name="label_10">
+          <property name="text">
+           <string>作者</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="5">
+         <widget class="QLineEdit" name="edit_author">
+          <property name="clearButtonEnabled">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="6">
+         <widget class="QLabel" name="label_11">
+          <property name="text">
+           <string>书名</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="7">
+         <widget class="QLineEdit" name="edit_name">
+          <property name="clearButtonEnabled">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="8">
+         <widget class="QCheckBox" name="ckb_find">
+          <property name="text">
+           <string>模糊查询</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="9">
+         <widget class="QPushButton" name="bkBtnFind">
+          <property name="text">
+           <string>查询</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="10">
+         <widget class="QPushButton" name="btn_detail">
+          <property name="text">
+           <string>详细</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item>
+      <widget class="QGroupBox" name="groupBox_3">
+       <property name="title">
+        <string>^_^</string>
+       </property>
+       <layout class="QGridLayout" name="gridLayout">
+        <item row="0" column="0">
+         <widget class="QPushButton" name="pushButton">
+          <property name="text">
+           <string>借书</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupBox_2">
+     <property name="title">
+      <string>筛选</string>
+     </property>
+     <layout class="QGridLayout" name="groupMatch" columnstretch="0,2,2,2,0,2">
+      <property name="topMargin">
+       <number>5</number>
+      </property>
+      <property name="bottomMargin">
+       <number>5</number>
+      </property>
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_8">
+        <property name="text">
+         <string>状态</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QComboBox" name="comboBox_2"/>
+      </item>
+      <item row="0" column="2">
+       <widget class="QComboBox" name="comboBox">
+        <item>
+         <property name="text">
+          <string>全部图书</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>出版日期</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>入库日期</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item row="0" column="3">
+       <widget class="QDateEdit" name="dateEdit"/>
+      </item>
+      <item row="0" column="4">
+       <widget class="QLabel" name="label_6">
+        <property name="text">
+         <string>---&gt;</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="5">
+       <widget class="QDateEdit" name="dateEdit_2"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QTableView" name="tableView"/>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

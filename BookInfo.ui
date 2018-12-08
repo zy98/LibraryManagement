@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>BookInfo</class>
+ <widget class="QWidget" name="BookInfo">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1148</width>
+    <height>720</height>
+   </rect>
+  </property>
+  <property name="font">
+   <font>
+    <family>微软雅黑</family>
+    <pointsize>12</pointsize>
+   </font>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout" columnstretch="1,2,1,2,1,1,1">
+   <property name="spacing">
+    <number>10</number>
+   </property>
+   <item row="4" column="0">
+    <widget class="QLabel" name="label_7">
+     <property name="text">
+      <string>出版日期</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1">
+    <widget class="QLineEdit" name="bkName"/>
+   </item>
+   <item row="5" column="1">
+    <widget class="QLineEdit" name="bkISBN"/>
+   </item>
+   <item row="11" column="6">
+    <widget class="QPushButton" name="btn_upload">
+     <property name="text">
+      <string>上传图片</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QLabel" name="label_2">
+     <property name="text">
+      <string>图书名称</string>
+     </property>
+    </widget>
+   </item>
+   <item row="13" column="4">
+    <widget class="QPushButton" name="btn_next">
+     <property name="text">
+      <string>下一条</string>
+     </property>
+    </widget>
+   </item>
+   <item row="10" column="1">
+    <widget class="QDateEdit" name="bkInDate"/>
+   </item>
+   <item row="2" column="1">
+    <widget class="QLineEdit" name="bkAuthor"/>
+   </item>
+   <item row="11" column="1">
+    <widget class="QComboBox" name="bkStatus">
+     <item>
+      <property name="text">
+       <string>1</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>2</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>3</string>
+      </property>
+     </item>
+    </widget>
+   </item>
+   <item row="9" column="0">
+    <widget class="QLabel" name="label_9">
+     <property name="text">
+      <string>图书价格</string>
+     </property>
+    </widget>
+   </item>
+   <item row="9" column="1">
+    <widget class="QDoubleSpinBox" name="bkPrice">
+     <property name="maximum">
+      <double>9999.989999999999782</double>
+     </property>
+    </widget>
+   </item>
+   <item row="8" column="0">
+    <widget class="QLabel" name="label_11">
+     <property name="text">
+      <string>图书页数</string>
+     </property>
+    </widget>
+   </item>
+   <item row="13" column="6">
+    <widget class="QPushButton" name="btn_cancal">
+     <property name="text">
+      <string>取消</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0">
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>图书编号</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="0">
+    <widget class="QLabel" name="label_6">
+     <property name="text">
+      <string>分类名称</string>
+     </property>
+    </widget>
+   </item>
+   <item row="11" column="4">
+    <widget class="QPushButton" name="btn_prev">
+     <property name="text">
+      <string>上一条</string>
+     </property>
+    </widget>
+   </item>
+   <item row="13" column="2">
+    <widget class="QLabel" name="label_16">
+     <property name="text">
+      <string>图书起始序号</string>
+     </property>
+    </widget>
+   </item>
+   <item row="10" column="0">
+    <widget class="QLabel" name="label_10">
+     <property name="text">
+      <string>入馆日期</string>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="1">
+    <widget class="QLineEdit" name="bkLang">
+     <property name="text">
+      <string>中文</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="2" rowspan="11" colspan="2">
+    <widget class="QTextEdit" name="bkIntro"/>
+   </item>
+   <item row="2" column="0">
+    <widget class="QLabel" name="label_3">
+     <property name="text">
+      <string>图书作者</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0">
+    <widget class="QLabel" name="label_4">
+     <property name="text">
+      <string>出版名称</string>
+     </property>
+    </widget>
+   </item>
+   <item row="8" column="1">
+    <widget class="QSpinBox" name="bkPage">
+     <property name="minimum">
+      <number>1</number>
+     </property>
+     <property name="maximum">
+      <number>9999</number>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1">
+    <widget class="QLineEdit" name="bkID">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="placeholderText">
+      <string>默认生成唯一编号</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="1">
+    <widget class="QDateEdit" name="bkPubDate"/>
+   </item>
+   <item row="3" column="1">
+    <widget class="QLineEdit" name="bkPub"/>
+   </item>
+   <item row="6" column="1">
+    <widget class="QLineEdit" name="bkClassfy"/>
+   </item>
+   <item row="5" column="0">
+    <widget class="QLabel" name="label_8">
+     <property name="text">
+      <string>标准ISBN</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="4" rowspan="10" colspan="3">
+    <widget class="QLabel" name="bkCover">
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(195, 195, 195);</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </item>
+   <item row="13" column="5">
+    <widget class="QPushButton" name="btn_submit">
+     <property name="text">
+      <string>提交</string>
+     </property>
+    </widget>
+   </item>
+   <item row="11" column="5">
+    <widget class="QPushButton" name="btn_clear">
+     <property name="text">
+      <string>清空</string>
+     </property>
+    </widget>
+   </item>
+   <item row="13" column="0">
+    <widget class="QLabel" name="label_12">
+     <property name="text">
+      <string>图书本数</string>
+     </property>
+    </widget>
+   </item>
+   <item row="11" column="0">
+    <widget class="QLabel" name="label_1">
+     <property name="text">
+      <string>图书状态</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="4">
+    <widget class="QLabel" name="label_14">
+     <property name="text">
+      <string>图书封面</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="2">
+    <widget class="QLabel" name="label_13">
+     <property name="text">
+      <string>内容简介</string>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="0">
+    <widget class="QLabel" name="label_5">
+     <property name="text">
+      <string>所属语种</string>
+     </property>
+    </widget>
+   </item>
+   <item row="13" column="3">
+    <widget class="QLineEdit" name="bkIDBegin">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="13" column="1">
+    <widget class="QSpinBox" name="bkNum">
+     <property name="minimum">
+      <number>1</number>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

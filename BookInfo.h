@@ -1,0 +1,47 @@
+﻿#ifndef BOOKINFO_H
+#define BOOKINFO_H
+
+#include <QDataWidgetMapper>
+#include <QSqlRecord>
+#include "InfoWidget.h"
+
+namespace Ui {
+class BookInfo;
+}
+
+class BookInfo : public InfoWidget
+{
+    Q_OBJECT
+
+signals:
+    void prev();
+    void next();
+
+public:
+    explicit BookInfo(QWidget *parent = nullptr);
+    ~BookInfo();
+
+    void setWidgetMapper(QDataWidgetMapper* mapper);
+
+    void readRecord(const QSqlRecord& rec);
+    void writeRecord(QSqlRecord& rec);
+    void setWidgetStatus(int status);
+    void setForDisplay();
+    void setForBookAdmin();
+
+public slots:
+    void clear();
+
+    void setEnable(bool flag);
+
+protected:
+    //void closeEvent(QCloseEvent* event);
+
+private slots:
+    void on_btn_submit_clicked();
+
+private:
+    Ui::BookInfo *ui;
+};
+
+#endif // BOOKINFO_H
