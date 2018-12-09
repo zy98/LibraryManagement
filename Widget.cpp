@@ -104,6 +104,6 @@ void Widget::submitData()
 
 QString Widget::lastError()
 {
-    return tabModel->lastError().text();
+    return tabModel->lastError().databaseText();
 }
 

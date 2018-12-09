@@ -25,13 +25,19 @@ public slots:
 private slots:
     void reLogin();
 
+    void on_actionChangePwd_triggered();
+
 private:
     Ui::MainWindow *ui;
     Widget* widget;
+    QSqlRecord record;
 
     Widget* initWiget(const QSqlRecord &rec);
     //连接工具栏信号与自定义信号
     void connectWidget();
+    //设置工具栏状态
+    void setStatusFor(WidgetStatus status);
+
 };
 
 #endif // MAINWINDOW_H

@@ -4,15 +4,20 @@
 #include <QSqlError>
 #include <QDebug>
 #include <QItemDelegate>
+#include <ctime>
 
 BookWidget::BookWidget(QWidget *parent) :
     Widget(parent),
     ui(new Ui::BookWidget),
-    bookInfo(new BookInfo(nullptr))
+    bookInfo(new BookInfo(this))
 {
     ui->setupUi(this);
+    bookInfo->setWindowFlags(Qt::Dialog);
+
     initModel();
+
     initView();
+
     view = ui->tableView;
     tabModel = model;
 
@@ -40,19 +45,34 @@ void BookWidget::initView()
     ui->tableView->setSelectionMode(QAbstractItemView::ExtendedSelection);
     ui->tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
 
-    ui->tableView->setSortingEnabled(true);
-    ui->tableView->resizeColumnsToContents();
-    ui->tableView->resizeRowsToContents();
-
     //设置隐藏列
     ui->tableView->setColumnHidden(4,true);
     ui->tableView->setColumnHidden(11,true);
     ui->tableView->setColumnHidden(12,true);
 
-    //设置列宽
+    ui->tableView->setSortingEnabled(true);
 
 
+//    由于自适应列宽占用大量时间，所以改为固定列宽；
+//    ui->tableView->resizeColumnsToContents();
+//    ui->tableView->resizeRowsToContents();
 
+    //设置固定列宽
+    ui->tableView->setColumnWidth(0,100);
+    ui->tableView->setColumnWidth(1,300);
+    ui->tableView->setColumnWidth(2,150);
+    ui->tableView->setColumnWidth(3,200);
+    ui->tableView->setColumnWidth(4,100);
+    ui->tableView->setColumnWidth(5,150);
+    ui->tableView->setColumnWidth(6,100);
+    ui->tableView->setColumnWidth(7,80);
+    ui->tableView->setColumnWidth(8,80);
+    ui->tableView->setColumnWidth(9,80);
+    ui->tableView->setColumnWidth(10,100);
+    ui->tableView->setColumnWidth(11,300);
+    ui->tableView->setColumnWidth(12,300);
+    ui->tableView->setColumnWidth(13,80);
+    ui->tableView->setColumnWidth(14,50);
 }
 
 void BookWidget::initModel()
@@ -89,8 +109,10 @@ void BookWidget::initModel()
             mapper,SLOT(setCurrentModelIndex(const QModelIndex&)));
 
 
+    //select 并不耗时，但最好还是不要初始化时直接select
+    //select时间和数据大小成正比
     if(!model->select())
-        showError(model->lastError().text());
+        showError(lastError());
 }
 
 //void BookWidget::closeEvent(QCloseEvent* event)
@@ -177,6 +199,7 @@ void BookWidget::createItem(QSqlRecord& rec)
     }
 }
 
+//可以做一个map映射
 void BookWidget::on_bkBtnFind_clicked()
 {
     bool flag = ui->ckb_find->isChecked();

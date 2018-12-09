@@ -13,12 +13,14 @@
 #include <QSqlRelationalDelegate>
 #include <QSqlQuery>
 #include <QItemSelectionModel>
+#include <ctime>
 
 ReaderWidget::ReaderWidget(QWidget *parent) :
     Widget(parent),
     ui(new Ui::ReaderWidget)
 {
     ui->setupUi(this);
+
     initModel();
     initView();
     view = ui->tableView;
@@ -37,8 +39,8 @@ void ReaderWidget::initView()
     ui->tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
 
     //隐藏数据
-//    ui->tableView->setColumnHidden(1,true);
-//    ui->tableView->setColumnHidden(8,true);
+    ui->tableView->setColumnHidden(1,true);
+    ui->tableView->setColumnHidden(8,true);
     ui->tableView->setColumnHidden(9,true);
 
     //初始化读者类别
@@ -50,11 +52,27 @@ void ReaderWidget::initView()
 
     //设置允许排序和行列自适应内容
     ui->tableView->setSortingEnabled(true);
-    ui->tableView->resizeColumnsToContents();
-    ui->tableView->resizeRowsToContents();
+//    ui->tableView->resizeColumnsToContents();
+//    ui->tableView->resizeRowsToContents();
+//    ui->tableView->setColumnWidth(3,ui->tableView->columnWidth(3)+10);
+//    ui->tableView->setColumnWidth(8,ui->tableView->columnWidth(8)+20);
     ui->tableView->setCornerButtonEnabled(true);
-    ui->tableView->setColumnWidth(3,ui->tableView->columnWidth(3)+10);
-    ui->tableView->setColumnWidth(8,ui->tableView->columnWidth(8)+20);
+
+    ui->tableView->setColumnWidth(0,100);
+    ui->tableView->setColumnWidth(1,100);
+    ui->tableView->setColumnWidth(2,100);
+    ui->tableView->setColumnWidth(3,60);
+    ui->tableView->setColumnWidth(4,100);//rdType
+    ui->tableView->setColumnWidth(5,100);
+    ui->tableView->setColumnWidth(6,80);
+    ui->tableView->setColumnWidth(7,150);
+    ui->tableView->setColumnWidth(8,120);//rdDate
+    ui->tableView->setColumnWidth(9,80);//rdStatus
+    ui->tableView->setColumnWidth(10,60);
+    ui->tableView->setColumnWidth(11,120);
+    ui->tableView->setColumnWidth(12,150);
+
+
 
     ui->tableView->setItemDelegate(new ReaderDelegate(ui->tableView));
 }
@@ -124,12 +142,12 @@ void  ReaderWidget::newItem(bool checked)
     {
         ui->info->setStatusFor(Create);
         ui->info->clear();
-        ui->tableView->setEnabled(true);
+        ui->tableView->setEnabled(false);
         return;
     }
 
     ui->info->setStatusFor(Display);
-    ui->tableView->setEnabled(false);
+    ui->tableView->setEnabled(true);
 }
 
 void  ReaderWidget::changeItem(bool checked)
@@ -218,11 +236,7 @@ void ReaderWidget::typeIndexChanged(int index)
 
 void ReaderWidget::on_btn_loss_clicked()
 {
-    auto list = ui->tableView->selectionModel()->selectedRows(model->fieldIndex("rdStatus"));
-    for(auto& i : list)
-        model->setData(i ,1);
-
-    submitData();
+    setReaderStatus(1);
 
 //    auto a = ui->tableView->selectionModel();
 //    qDebug()<<a->selectedIndexes();
@@ -233,9 +247,19 @@ void ReaderWidget::on_btn_loss_clicked()
 
 void ReaderWidget::on_btn_user_disable_clicked()
 {
+    setReaderStatus(2);
+}
+
+void ReaderWidget::on_btn_normal_clicked()
+{
+    setReaderStatus(0);
+}
+
+void ReaderWidget::setReaderStatus(int status)
+{
     auto list = ui->tableView->selectionModel()->selectedRows(model->fieldIndex("rdStatus"));
     for(auto& i : list)
-        model->setData(i ,2);
+        model->setData(i ,status);
 
     submitData();
 }
@@ -250,5 +274,7 @@ void ReaderWidget::on_btn_user_disable_clicked()
 //{
 //    return model->lastError().text();
 //}
+
+
 
 

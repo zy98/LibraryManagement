@@ -78,8 +78,8 @@ void ReaderInfo::setStatusFor(WidgetStatus status)
 {
     if(status == Create)
     {
-        ui->btn_submit->show();
         setEnable(true);
+        ui->btn_submit->show();
         ui->edit_id->setEnabled(true);
         ui->btn_loss->setEnabled(false);
         ui->btn_pwd->setEnabled(false);
@@ -173,6 +173,8 @@ void ReaderInfo::setEnable(bool flag)
 
     ui->btn_loss->setEnabled(flag);
     ui->btn_pwd->setEnabled(flag);
+
+    ui->btn_submit->hide();
 }
 
 void ReaderInfo::clear()

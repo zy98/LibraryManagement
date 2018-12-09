@@ -24,9 +24,9 @@ public slots:
     void submitItem(){}
     void changePwd(){}
 
-    void createItem(const QSqlRecord& rec){}
+//    void createItem(QSqlRecord& rec){}
 
-    bool setRecord(const QSqlRecord& rec){return true;}
+//    bool setRecord(const QSqlRecord& rec){return true;}
 
 protected:
     void initView(){}

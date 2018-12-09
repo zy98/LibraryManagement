@@ -36,9 +36,12 @@ private slots:
     
     void on_btn_user_disable_clicked();
 
+    void on_btn_normal_clicked();
+
 private:
     void initView();
     void initModel();
+    void setReaderStatus(int status);
 
     Ui::ReaderWidget *ui;
     QSqlRelationalTableModel* model;

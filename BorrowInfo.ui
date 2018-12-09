@@ -69,13 +69,6 @@
           </property>
          </widget>
         </item>
-        <item row="0" column="6">
-         <widget class="QPushButton" name="pushButton_4">
-          <property name="text">
-           <string>图书报失</string>
-          </property>
-         </widget>
-        </item>
         <item row="0" column="0">
          <widget class="QLineEdit" name="lineEdit"/>
         </item>
@@ -95,10 +88,17 @@
         <string>@_@</string>
        </property>
        <layout class="QGridLayout" name="gridLayout_2">
-        <item row="0" column="0">
+        <item row="0" column="1">
          <widget class="QPushButton" name="pushButton_2">
           <property name="text">
            <string>还书</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QPushButton" name="pushButton_4">
+          <property name="text">
+           <string>报失</string>
           </property>
          </widget>
         </item>

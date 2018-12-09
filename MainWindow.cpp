@@ -2,6 +2,12 @@
 #include "ui_MainWindow.h"
 #include <QDebug>
 
+#include <QInputDialog>
+#include <QLabel>
+#include <QLineEdit>
+#include <QPushButton>
+#include <QSqlQuery>
+#include <QSqlError>
 #include <QSqlRecord>
 #include "Widget.h"
 #include "ReaderWidget.h"
@@ -40,8 +46,8 @@ void MainWindow::setStatusMsg(const char* text, int timeout)
 
 void MainWindow::reLogin()
 {
-    this->hide();
     widget->close();
+    this->hide();
 
     LoginDialog dialog;
     if(dialog.exec() != QDialog::Accepted)
@@ -59,13 +65,13 @@ void MainWindow::reLogin()
 Widget *MainWindow::initWiget(const QSqlRecord& rec)
 {
     widget=nullptr;
-    int flag = 0;
-    flag = rec.value(rec.indexOf("rdType")).toInt();
-
+    record = rec;
+    int flag = rec.value(rec.indexOf("rdType")).toInt();
     if(flag == 1)
     {
         auto w = new ReaderWidget(this);
         w->setRecord(rec);
+        setStatusFor(ReaderAdmin);
         widget = w;
         connectWidget();
     }
@@ -74,6 +80,7 @@ Widget *MainWindow::initWiget(const QSqlRecord& rec)
         auto w = new BorrowWidget(this);
         w->setStatusFor(BorrowAdmin);
         w->setRecord(rec);
+        setStatusFor(BorrowAdmin);
         widget = w;
         connectWidget();
     }
@@ -82,6 +89,7 @@ Widget *MainWindow::initWiget(const QSqlRecord& rec)
         auto w = new BookWidget(this);
         w->setStatusFor(BookAdmin);
         w->setRecord(rec);
+        setStatusFor(BookAdmin);
         widget = w;
         connectWidget();
     }
@@ -90,10 +98,10 @@ Widget *MainWindow::initWiget(const QSqlRecord& rec)
         auto w = new BorrowWidget(this);
         w->setStatusFor(Reader);
         w->setRecord(rec);
+        setStatusFor(Reader);
         widget = w;
         connectWidget();
     }
-
 
     if(!widget) widget = new Widget(this);
     return widget;
@@ -111,6 +119,53 @@ void MainWindow::connectWidget()
     connect(ui->actionSubmit,SIGNAL(triggered()),widget,SLOT(submitItem()));
     connect(ui->actionDeleteItem,SIGNAL(triggered()),widget,SLOT(deleteItem()));
     connect(ui->actionChangePwd,SIGNAL(triggered()),widget,SLOT(changePwd()));
+}
 
-    //connect(ui->actionExit,SIGNAL(triggered()),widget,SLOT(close()));
+//设置工具栏状态
+void MainWindow::setStatusFor(WidgetStatus status)
+{
+    if(status == BookAdmin || status == ReaderAdmin)
+    {
+        ui->actionNewItem->setVisible(true);
+        ui->actionChangeItem->setVisible(true);
+        ui->actionSubmit->setVisible(true);
+        ui->actionDeleteItem->setVisible(true);
+        return;
+    }
+    ui->actionNewItem->setVisible(false);
+    ui->actionChangeItem->setVisible(false);
+    ui->actionSubmit->setVisible(false);
+    ui->actionDeleteItem->setVisible(false);
+}
+
+void MainWindow::on_actionChangePwd_triggered()
+{
+    QString srcPwd = QInputDialog::getText(this,Widget::TU8("修改密码"),Widget::TU8("原密码："),
+                                           QLineEdit::Password);
+    if(srcPwd == "") return;
+
+    QString newPwd = QInputDialog::getText(this,Widget::TU8("修改密码"),Widget::TU8("新密码："),
+                                           QLineEdit::PasswordEchoOnEdit);
+    if(newPwd == "") return;
+
+    if(srcPwd != newPwd)
+    {
+        QSqlDatabase db = QSqlDatabase::database("Library");
+
+        QSqlQuery query(db);
+
+        query.prepare("exec proc_update_pwd ?, ?, ?");
+        query.addBindValue(record.value(0));
+        query.addBindValue(srcPwd);
+        query.addBindValue(newPwd);
+
+        if(!query.exec())
+            setStatusMsg(query.lastError().databaseText(),3000);
+
+        else
+            setStatusMsg("修改密码成功！");
+        return;
+    }
+
+    setStatusMsg("新密码与原密码相同，已取消修改！",4000);
 }
