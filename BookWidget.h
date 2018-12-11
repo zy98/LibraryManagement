@@ -15,6 +15,9 @@ class BookWidget : public Widget
 {
     Q_OBJECT
 
+signals:
+    void borrowBook(long long id);
+
 public:
     explicit BookWidget(QWidget *parent = nullptr);
     ~BookWidget();
@@ -39,9 +42,14 @@ protected slots:
 private slots:
     void on_bkBtnFind_clicked();
 
+    void on_btn_detail_clicked(bool checked);
+
+    void on_btn_borrow_clicked();
+
 private:
     void initView();
     void initModel();
+    void setColumnsHideFor(WidgetStatus status);
 
     Ui::BookWidget *ui;
     QSqlTableModel* model;

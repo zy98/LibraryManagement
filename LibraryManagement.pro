@@ -37,7 +37,7 @@ SOURCES += \
     ReaderDelegate.cpp \
     BookWidget.cpp \
     BorrowWidget.cpp \
-    BorrowInfo.cpp
+    BorrowInfoWidget.cpp
 
 
 
@@ -49,13 +49,13 @@ HEADERS += \
     MainWindow.h \
     ReaderInfo.h \
     ReaderWidget.h \
-    BookInfo.h \
     Widget.h \
     ReaderDelegate.h \
     BookWidget.h \
     BorrowWidget.h \
     InfoWidget.h \
-    BorrowInfo.h
+    BookInfo.h \
+    BorrowInfoWidget.h
 
 
 
@@ -64,10 +64,10 @@ FORMS += \
     MainWindow.ui \
     ReaderInfo.ui \
     ReaderWidget.ui \
-    BookInfo.ui \
     BookWidget.ui \
     BorrowWidget.ui \
-    BorrowInfo.ui
+    BookInfo.ui \
+    BorrowInfoWidget.ui
 
 
 # Default rules for deployment.

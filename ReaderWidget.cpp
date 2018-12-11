@@ -68,7 +68,7 @@ void ReaderWidget::initView()
     ui->tableView->setColumnWidth(7,150);
     ui->tableView->setColumnWidth(8,120);//rdDate
     ui->tableView->setColumnWidth(9,80);//rdStatus
-    ui->tableView->setColumnWidth(10,60);
+    ui->tableView->setColumnWidth(10,80);
     ui->tableView->setColumnWidth(11,120);
     ui->tableView->setColumnWidth(12,150);
 
@@ -114,6 +114,8 @@ void ReaderWidget::initModel()
 
     if(!model->select())
         showError("获取数据出错，请联系数据库管理员");
+    else
+        emit statusMes(U8("获取数据成功"),3000);
 }
 
 ReaderWidget::~ReaderWidget()

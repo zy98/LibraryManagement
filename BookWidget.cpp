@@ -14,13 +14,14 @@ BookWidget::BookWidget(QWidget *parent) :
     ui->setupUi(this);
     bookInfo->setWindowFlags(Qt::Dialog);
 
-    initModel();
-
+    auto db = QSqlDatabase::database("Library");
+    model = new QSqlTableModel(ui->tableView,db);
+    model->setTable("Book");
+    //initModel();
     initView();
 
     view = ui->tableView;
     tabModel = model;
-
 
     connect(bookInfo,SIGNAL(prev()),this,SLOT(prev()));
     connect(bookInfo,SIGNAL(next()),this,SLOT(next()));
@@ -46,9 +47,7 @@ void BookWidget::initView()
     ui->tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
 
     //设置隐藏列
-    ui->tableView->setColumnHidden(4,true);
-    ui->tableView->setColumnHidden(11,true);
-    ui->tableView->setColumnHidden(12,true);
+    setColumnsHideFor(BookAdmin);
 
     ui->tableView->setSortingEnabled(true);
 
@@ -76,13 +75,7 @@ void BookWidget::initView()
 }
 
 void BookWidget::initModel()
-{
-    auto db = QSqlDatabase::database("Library");
-
-    model = new QSqlTableModel(ui->tableView,db);
-    model->setTable("Book");
-    model->setEditStrategy(QSqlTableModel::OnFieldChange);
-
+{    
     model->setHeaderData(0,Qt::Horizontal,U8("图书编号"));
     model->setHeaderData(1,Qt::Horizontal,U8("书名"));
     model->setHeaderData(2,Qt::Horizontal,U8("作者"));
@@ -108,7 +101,6 @@ void BookWidget::initModel()
     connect(ui->tableView,SIGNAL(clicked(const QModelIndex&)),
             mapper,SLOT(setCurrentModelIndex(const QModelIndex&)));
 
-
     //select 并不耗时，但最好还是不要初始化时直接select
     //select时间和数据大小成正比
     if(!model->select())
@@ -127,17 +119,28 @@ void BookWidget::setStatusFor(WidgetStatus status)
     {
         ui->groupBorrow->hide();
         ui->groupMatch->show();
+        setColumnsHideFor(BookAdmin);
+        model->setTable("Book");
+        initModel();
+        model->setEditStrategy(QSqlTableModel::OnFieldChange);
         return;
     }
     else if(status == BorrowAdmin)
     {
         ui->groupBorrow->show();
         ui->groupMatch->hide();
+        model->setTable("bookInLibrary");
+        initModel();
+        ui->tableView->setEditTriggers(QTableView::NoEditTriggers);
+        ui->tableView->setSelectionMode(QTableView::SingleSelection);
+        setColumnsHideFor(BorrowAdmin);
+
         return;
     }
 
     ui->groupBorrow->hide();
     ui->groupMatch->hide();
+    setColumnsHideFor(BookAdmin);
 }
 
 void BookWidget::newItem(bool checked)
@@ -145,13 +148,16 @@ void BookWidget::newItem(bool checked)
     if(checked)
     {
         bookInfo->clear();
+
         bookInfo->setStatusFor(Create);
         bookInfo->show();
-        return;
+    }
+    else
+    {
+        bookInfo->setStatusFor(Display);
+        bookInfo->hide();
     }
 
-    bookInfo->setStatusFor(Display);
-    bookInfo->hide();
 }
 
 void BookWidget::changeItem(bool checked)
@@ -229,4 +235,42 @@ void BookWidget::on_bkBtnFind_clicked()
 
     if(!model->select())
         showError(lastError());
+}
+
+void BookWidget::on_btn_detail_clicked(bool checked)
+{
+    bookInfo->setStatusFor(Display);
+    checked ? bookInfo->show() : bookInfo->hide();
+}
+
+void BookWidget::on_btn_borrow_clicked()
+{
+    auto list = ui->tableView->selectionModel()->selectedRows(0);
+    if(list.size() == 1)
+    {
+        qDebug()<<"emit:"<<list.at(0).data().toLongLong();
+        emit borrowBook(list.at(0).data().toLongLong());
+    }
+    else
+        emit statusMes(U8("请选择一项，且只能选择一项"),3000);
+}
+
+void BookWidget::setColumnsHideFor(WidgetStatus status)
+{
+    if(status == BorrowAdmin)
+    {
+        for(int i = 0; i < model->columnCount();i++)
+            if( i >= 6 && i <= 12)
+                ui->tableView->setColumnHidden(i, true);
+            else
+                ui->tableView->setColumnHidden(i,false);
+    }
+    else
+    {
+        for(int i = 0; i < model->columnCount();i++)
+            if( i == 4 || i ==11 || i == 12)
+                ui->tableView->setColumnHidden(i, true);
+            else
+                ui->tableView->setColumnHidden(i,false);
+    }
 }

@@ -428,7 +428,7 @@
       <item row="7" column="2">
        <widget class="QPushButton" name="btn_pwd">
         <property name="text">
-         <string>修改密码</string>
+         <string>重置密码</string>
         </property>
        </widget>
       </item>

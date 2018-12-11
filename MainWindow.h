@@ -24,8 +24,9 @@ public slots:
 
 private slots:
     void reLogin();
-
     void on_actionChangePwd_triggered();
+    void createAction(bool status);
+    void alterAction(bool status);
 
 private:
     Ui::MainWindow *ui;
@@ -37,6 +38,8 @@ private:
     void connectWidget();
     //设置工具栏状态
     void setStatusFor(WidgetStatus status);
+
+    void setActionVisable(bool status);
 
 };
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>BorrowInfo</class>
- <widget class="QWidget" name="BorrowInfo">
+ <class>BorrowInfoWidget</class>
+ <widget class="QWidget" name="BorrowInfoWidget">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -56,7 +56,7 @@
          </widget>
         </item>
         <item row="0" column="7">
-         <widget class="QPushButton" name="pushButton">
+         <widget class="QPushButton" name="btn_reLend">
           <property name="text">
            <string>续借</string>
           </property>
@@ -89,14 +89,14 @@
        </property>
        <layout class="QGridLayout" name="gridLayout_2">
         <item row="0" column="1">
-         <widget class="QPushButton" name="pushButton_2">
+         <widget class="QPushButton" name="btn_returnBook">
           <property name="text">
            <string>还书</string>
           </property>
          </widget>
         </item>
         <item row="0" column="0">
-         <widget class="QPushButton" name="pushButton_4">
+         <widget class="QPushButton" name="btn_lostBook">
           <property name="text">
            <string>报失</string>
           </property>

@@ -38,7 +38,6 @@
    <addaction name="actionChangeItem"/>
    <addaction name="actionDeleteItem"/>
    <addaction name="actionSubmit"/>
-   <addaction name="separator"/>
    <addaction name="actionChangePwd"/>
    <addaction name="actionExit"/>
    <addaction name="separator"/>

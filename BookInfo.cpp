@@ -9,8 +9,6 @@ BookInfo::BookInfo(QWidget *parent) :
     ui->setupUi(this);
 
     connect(ui->btn_clear,SIGNAL(clicked()),this,SLOT(clear()));
-    connect(ui->btn_cancal,SIGNAL(clicked()),this,SLOT(hide()));
-    connect(ui->btn_cancal,SIGNAL(clicked()),this,SLOT(clear()));
 
     connect(ui->btn_next,SIGNAL(clicked()),this,SIGNAL(next()));
     connect(ui->btn_prev,SIGNAL(clicked()),this,SIGNAL(prev()));
@@ -21,11 +19,6 @@ BookInfo::~BookInfo()
 {
     delete ui;
 }
-
-//void BookInfo::closeEvent(QCloseEvent* event)
-//{
-//    hide();
-//}
 
 void BookInfo::setWidgetMapper(QDataWidgetMapper* mapper)
 {

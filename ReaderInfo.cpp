@@ -45,8 +45,6 @@ void ReaderInfo::readRecord(const QSqlRecord& rec)
 
         ui->edit_tele->setText(record.value(11).toString());
         ui->edit_mail->setText(record.value(12).toString());
-
-        ui->btn_pwd->setEnabled(true);
     }
 }
 
@@ -92,6 +90,7 @@ void ReaderInfo::setStatusFor(WidgetStatus status)
     else
     {
         setEnable(false);
+        ui->btn_upload->setEnabled(false);
     }
 }
 
@@ -171,6 +170,7 @@ void ReaderInfo::setEnable(bool flag)
     ui->edit_tele->setEnabled(flag);
     ui->edit_mail->setEnabled(flag);
 
+    ui->btn_upload->setEnabled(true);
     ui->btn_loss->setEnabled(flag);
     ui->btn_pwd->setEnabled(flag);
 

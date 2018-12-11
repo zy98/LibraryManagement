@@ -20,7 +20,7 @@
    <string>Form</string>
   </property>
   <property name="toolTip">
-   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;0,2,2,2,0,2&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   <string/>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
@@ -40,43 +40,8 @@
         <property name="bottomMargin">
          <number>5</number>
         </property>
-        <item row="0" column="0">
-         <widget class="QLabel" name="label_7">
-          <property name="text">
-           <string>图书编号</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="1">
-         <widget class="QLineEdit" name="edit_id">
-          <property name="clearButtonEnabled">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="2">
-         <widget class="QLabel" name="label_9">
-          <property name="text">
-           <string> 出版社</string>
-          </property>
-         </widget>
-        </item>
         <item row="0" column="3">
          <widget class="QLineEdit" name="edit_pub">
-          <property name="clearButtonEnabled">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="4">
-         <widget class="QLabel" name="label_10">
-          <property name="text">
-           <string>作者</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="5">
-         <widget class="QLineEdit" name="edit_author">
           <property name="clearButtonEnabled">
            <bool>true</bool>
           </property>
@@ -89,6 +54,51 @@
           </property>
          </widget>
         </item>
+        <item row="0" column="4">
+         <widget class="QLabel" name="label_10">
+          <property name="text">
+           <string>作者</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="8">
+         <widget class="QLabel" name="label_7">
+          <property name="text">
+           <string>图书编号</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="2">
+         <widget class="QLabel" name="label_9">
+          <property name="text">
+           <string> 出版社</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="12">
+         <widget class="QPushButton" name="btn_detail">
+          <property name="text">
+           <string>详细</string>
+          </property>
+          <property name="checkable">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="5">
+         <widget class="QLineEdit" name="edit_author">
+          <property name="clearButtonEnabled">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="11">
+         <widget class="QPushButton" name="bkBtnFind">
+          <property name="text">
+           <string>查询</string>
+          </property>
+         </widget>
+        </item>
         <item row="0" column="7">
          <widget class="QLineEdit" name="edit_name">
           <property name="clearButtonEnabled">
@@ -96,7 +106,7 @@
           </property>
          </widget>
         </item>
-        <item row="0" column="8">
+        <item row="0" column="10">
          <widget class="QCheckBox" name="ckb_find">
           <property name="text">
            <string>模糊查询</string>
@@ -107,16 +117,9 @@
          </widget>
         </item>
         <item row="0" column="9">
-         <widget class="QPushButton" name="bkBtnFind">
-          <property name="text">
-           <string>查询</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="10">
-         <widget class="QPushButton" name="btn_detail">
-          <property name="text">
-           <string>详细</string>
+         <widget class="QLineEdit" name="edit_id">
+          <property name="clearButtonEnabled">
+           <bool>true</bool>
           </property>
          </widget>
         </item>
@@ -130,7 +133,7 @@
        </property>
        <layout class="QGridLayout" name="gridLayout">
         <item row="0" column="0">
-         <widget class="QPushButton" name="pushButton">
+         <widget class="QPushButton" name="btn_borrow">
           <property name="text">
            <string>借书</string>
           </property>
