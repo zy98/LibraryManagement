@@ -3,17 +3,14 @@
 #include <QDebug>
 
 #include <QInputDialog>
-#include <QLabel>
-#include <QLineEdit>
-#include <QPushButton>
 #include <QSqlQuery>
 #include <QSqlError>
 #include <QSqlRecord>
-#include "Widget.h"
-#include "ReaderWidget.h"
+#include "UI/Widget.h"
+#include "UI/ReaderWidget.h"
 #include "LoginDialog.h"
-#include "BookWidget.h"
-#include "BorrowWidget.h"
+#include "UI/BookWidget.h"
+#include "UI/BorrowWidget.h"
 
 MainWindow::MainWindow(QWidget *parent, const QSqlRecord &rec) :
     QMainWindow(parent),

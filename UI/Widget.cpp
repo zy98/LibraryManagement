@@ -1,5 +1,4 @@
 ﻿#include "Widget.h"
-#include <QMessageBox>
 #include <QSqlError>
 #include <QDebug>
 

@@ -1,7 +1,7 @@
 ﻿#include "Database.h"
 
 #include <QSqlQuery>
-#include <QVariant>
+//#include <QVariant>
 
 QSqlDatabase Database::database;
 

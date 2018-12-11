@@ -4,7 +4,6 @@
 #include <QSqlDatabase>
 #include <QSqlQuery>
 #include <QDebug>
-#include <QMessageBox>
 #include <QSqlError>
 
 ReaderInfo::ReaderInfo(QWidget *parent) :

@@ -1,7 +1,6 @@
 ﻿#include "MainWindow.h"
 #include <QApplication>
 #include "LoginDialog.h"
-#include "ReaderWidget.h"
 #include <QDebug>
 //#include "vld.h"
 

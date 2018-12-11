@@ -2,6 +2,7 @@
 #define LOGINDIALOG_H
 
 #include <QDialog>
+#include <QSqlRecord>
 #include "Database.h"
 
 namespace Ui {

@@ -1,18 +1,14 @@
-﻿#include "ReaderWidget.h"
-#include "ReaderInfo.h"
+﻿#include "UI/ReaderWidget.h"
+#include "UI/ReaderInfo.h"
 #include "ui_ReaderWidget.h"
-#include "Database.h"
-#include "LoginDialog.h"
 #include "MainWindow.h"
-#include "ReaderDelegate.h"
+#include "Delegate//ReaderDelegate.h"
 #include <QDataWidgetMapper>
 #include <QDebug>
-#include <QMessageBox>
-#include <QSqlQueryModel>
 #include <QSqlError>
 #include <QSqlRelationalDelegate>
 #include <QSqlQuery>
-#include <QItemSelectionModel>
+//#include <QItemSelectionModel>
 #include <ctime>
 
 ReaderWidget::ReaderWidget(QWidget *parent) :

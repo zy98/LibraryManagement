@@ -2,9 +2,6 @@
 #define DATABASE_H
 
 #include <QSqlDatabase>
-#include <QString>
-#include <QFile>
-#include <QSqlRecord>
 
 class Database
 {

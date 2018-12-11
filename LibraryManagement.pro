@@ -25,49 +25,58 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
-    AbWidget.cpp \
     Database.cpp \
     LoginDialog.cpp \
     main.cpp \
     MainWindow.cpp \
-    ReaderInfo.cpp \
-    ReaderWidget.cpp \
-    BookInfo.cpp \
-    Widget.cpp \
-    ReaderDelegate.cpp \
-    BookWidget.cpp \
-    BorrowWidget.cpp \
-    BorrowInfoWidget.cpp
+    Delegate/ReaderDelegate.cpp \
+    UI/AbWidget.cpp \
+    UI/BookInfo.cpp \
+    UI/BookWidget.cpp \
+    UI/BorrowInfoWidget.cpp \
+    UI/BorrowWidget.cpp \
+    UI/ReaderInfo.cpp \
+    UI/ReaderWidget.cpp \
+    UI/Widget.cpp \
+    Database.cpp \
+    LoginDialog.cpp \
+    main.cpp \
+    MainWindow.cpp \
+    Model/AbModel.cpp
 
 
 
 
 HEADERS += \
-    AbWidget.h \
     Database.h \
     LoginDialog.h \
     MainWindow.h \
-    ReaderInfo.h \
-    ReaderWidget.h \
-    Widget.h \
-    ReaderDelegate.h \
-    BookWidget.h \
-    BorrowWidget.h \
-    InfoWidget.h \
-    BookInfo.h \
-    BorrowInfoWidget.h
+    Delegate/ReaderDelegate.h \
+    UI/AbWidget.h \
+    UI/BookInfo.h \
+    UI/BookWidget.h \
+    UI/BorrowInfoWidget.h \
+    UI/BorrowWidget.h \
+    UI/InfoWidget.h \
+    UI/ReaderInfo.h \
+    UI/ReaderWidget.h \
+    UI/Widget.h \
+    Database.h \
+    LoginDialog.h \
+    MainWindow.h \
+    Model/AbModel.h
 
 
 
 FORMS += \
     LoginDialog.ui \
     MainWindow.ui \
-    ReaderInfo.ui \
-    ReaderWidget.ui \
-    BookWidget.ui \
-    BorrowWidget.ui \
-    BookInfo.ui \
-    BorrowInfoWidget.ui
+    UI/BookInfo.ui \
+    UI/BookWidget.ui \
+    UI/BorrowInfoWidget.ui \
+    UI/BorrowWidget.ui \
+    UI/ReaderInfo.ui \
+    UI/ReaderWidget.ui
 
 
 # Default rules for deployment.

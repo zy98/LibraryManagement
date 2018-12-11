@@ -1,7 +1,7 @@
 ﻿#include "LoginDialog.h"
 #include "ui_LoginDialog.h"
 
-#include "Database.h"
+//#include "Database.h"
 #include <QDebug>
 #include <QSqlQuery>
 #include <QTimer>

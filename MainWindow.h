@@ -1,7 +1,7 @@
 ﻿#ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "Widget.h"
+#include "UI/Widget.h"
 
 #include <QMainWindow>
 #include <QSqlRecord>
