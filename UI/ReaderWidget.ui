@@ -131,13 +131,6 @@
        </property>
        <layout class="QGridLayout" name="gridLayout_2">
         <item row="0" column="1">
-         <widget class="QPushButton" name="btn_loss">
-          <property name="text">
-           <string>挂失</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="2">
          <widget class="QPushButton" name="btn_normal">
           <property name="text">
            <string>解挂</string>
@@ -147,7 +140,14 @@
           </property>
          </widget>
         </item>
-        <item row="0" column="4">
+        <item row="0" column="7">
+         <widget class="QPushButton" name="btn_type">
+          <property name="text">
+           <string>读者类型管理</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="3">
          <widget class="QPushButton" name="btn_user_disable">
           <property name="text">
            <string>注销</string>
@@ -155,12 +155,9 @@
          </widget>
         </item>
         <item row="0" column="0">
-         <widget class="QPushButton" name="btn_alter">
+         <widget class="QPushButton" name="btn_loss">
           <property name="text">
-           <string>借书证变更</string>
-          </property>
-          <property name="checkable">
-           <bool>false</bool>
+           <string>挂失</string>
           </property>
          </widget>
         </item>
@@ -178,10 +175,10 @@
           </property>
          </widget>
         </item>
-        <item row="0" column="7">
-         <widget class="QPushButton" name="btn_type">
+        <item row="0" column="4">
+         <widget class="QPushButton" name="btn_reset">
           <property name="text">
-           <string>读者类型管理</string>
+           <string>重置密码</string>
           </property>
          </widget>
         </item>

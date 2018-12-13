@@ -35,12 +35,11 @@ bool AbModel::borrowBookProc(const QString& rdid, long long bkid)
 
     int retCode = 0;
     QSqlQuery query(db);
-    query.prepare(" ? = exec usp_borrow_book ? , ? ");
-    query.addBindValue(retCode,QSql::Out);
+    query.prepare("exec usp_borrow_book ? , ? ");
     query.addBindValue(rdid);
     query.addBindValue(bkid);
 
-    if( !query.exec() || retCode == 0 )
+    if( !query.exec())
         ret = false;
 
     return ret;
@@ -121,11 +120,9 @@ bool AbModel::selectItem(const QMap<QString, QVariant> &filter, bool flag)
         for(++i; i != filter.end(); i++)
             filterStr += QString(" and ") + i.key() + token.arg(i.value().toString());
 
-        qDebug()<<"filter:"<<filterStr;
        setFilter(filterStr);
     }
     ret = select();
-    qDebug()<<"selectItem:"<<selectStatement() <<" "<<ret;
     return ret;
 }
 

@@ -201,7 +201,7 @@ void BookWidget::on_btn_borrow_clicked()
 {
     auto list = ui->tableView->selectionModel()->selectedRows(0);
     if(list.size() == 1)
-        emit borrowBook(list.at(0).data().toLongLong());
+        emit borrowBook(list.at(0).data().toLongLong());//传递书的ID
     else
         emit statusMes(U8("请选择一项，且只能选择一项"),3000);
 }

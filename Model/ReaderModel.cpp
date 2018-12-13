@@ -54,7 +54,8 @@ bool ReaderModel::setRdStatusNomal(QItemSelectionModel* selection)
 }
 bool ReaderModel::setRdStatusDisabled(QItemSelectionModel* selection)
 {
-    return setRdStatus(selection, 2);;
+
+    return setRdStatus(selection, 2);
 }
 bool ReaderModel::setRdStatus(QItemSelectionModel* selection, int status)
 {

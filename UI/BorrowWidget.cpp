@@ -76,13 +76,15 @@ void BorrowWidget::BorrowBook(long long book)
     if(!readerRec.isEmpty())
     {
         QString name = readerRec.value(0).toString();
-        if(AbModel::borrowBookProc(name, book))
-        {
-            ui->book->modelPtr()->select();
-            ui->borrow->setReader(name);
-            if(AbModel::seachReader(name,readerRec))
-                ui->reader->readRecord(readerRec);
-        }
+        if(!AbModel::borrowBookProc(name, book))
+            showError(modelPtr()->dbError());
+
+
+        ui->book->modelPtr()->select();
+        ui->borrow->setReader(name);
+        if(AbModel::seachReader(name,readerRec))
+            ui->reader->readRecord(readerRec);
+
     }
 }
 
