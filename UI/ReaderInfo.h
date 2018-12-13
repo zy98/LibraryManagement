@@ -24,7 +24,7 @@ public:
     void setStatusFor(WidgetStatus status);
 
     //初始化读者类型控件
-    //void setTypeModel(QAbstractItemModel *model, int col);
+    void setTypeModel(QAbstractItemModel *model, int col);
 
     //清空所用输入栏，并将借书数量栏默认0，读者类别默认 本科生，办证日期默认为当天系统日期
     void clear();
@@ -46,6 +46,8 @@ private slots:
     void on_btn_upload_clicked();
 
     void on_btn_submit_clicked();
+
+    void on_cmb_status_currentIndexChanged(int index);
 
 private:
     //设置禁用/启用lineedit控件

@@ -5,15 +5,16 @@
 #include <QSqlQuery>
 #include <QDebug>
 #include <QSqlError>
+#include "Model/ReaderModel.h"
 
 ReaderInfo::ReaderInfo(QWidget *parent) :
     InfoWidget(parent),
     ui(new Ui::ReaderInfo)
 {
     ui->setupUi(this);
-    ui->cmb_status->addItem("0","nomal");
-    ui->cmb_status->addItem("1","loss");
-    ui->cmb_status->addItem("2","discard");
+//    ui->cmb_status->addItem("0","nomal");
+//    ui->cmb_status->addItem("1","loss");
+//    ui->cmb_status->addItem("2","discard");
 
     setStatusFor(Display);
 }
@@ -41,17 +42,18 @@ void ReaderInfo::readRecord(const QSqlRecord& rec)
 
         auto status = record.value(10).toInt();
         ui->cmb_status->setCurrentIndex(status);
+        ui->btn_loss->setEnabled(!status);
 
         ui->edit_tele->setText(record.value(11).toString());
         ui->edit_mail->setText(record.value(12).toString());
     }
 }
 
-//void ReaderInfo::setTypeModel(QAbstractItemModel *model, int col)
-//{
-//    ui->cmb_typeid->setModel(model);
-//    ui->cmb_typeid->setModelColumn(col);
-//}
+void ReaderInfo::setTypeModel(QAbstractItemModel *model, int col)
+{
+    ui->cmb_typeid->setModel(model);
+    ui->cmb_typeid->setModelColumn(col);
+}
 
 void ReaderInfo::setWidgetMapper(QDataWidgetMapper *mapper)
 {
@@ -95,21 +97,11 @@ void ReaderInfo::setStatusFor(WidgetStatus status)
 
 void ReaderInfo::on_btn_loss_clicked()
 {  
-    auto status = ui->cmb_status->currentIndex();
-    auto id = ui->edit_id->text();
-
-    QSqlDatabase db = QSqlDatabase::database("Library");
-    QSqlQuery query(db);
-    query.prepare("update Reader set rdStatus = ? where rdID = ?");
-    if( status != 2 )
+    auto name = ui->edit_id->text();
+    if(name != "")
     {
-        query.addBindValue(1);
-        query.addBindValue(id);
-
-        if(query.exec())
+        if(ReaderModel::setLoss(name))
             ui->cmb_status->setCurrentIndex(1);
-        else
-            showError(query.lastError().text());
     }
 }
 
@@ -170,7 +162,8 @@ void ReaderInfo::setEnable(bool flag)
     ui->edit_mail->setEnabled(flag);
 
     ui->btn_upload->setEnabled(true);
-    ui->btn_loss->setEnabled(flag);
+//    auto index = ui->cmb_status->currentIndex();
+//    ui->btn_loss->setEnabled(!index);
     ui->btn_pwd->setEnabled(flag);
 
     ui->btn_submit->hide();
@@ -195,3 +188,8 @@ void ReaderInfo::clear()
     ui->edit_mail->clear();
 }
 
+
+void ReaderInfo::on_cmb_status_currentIndexChanged(int index)
+{
+    ui->btn_loss->setEnabled(!index);
+}

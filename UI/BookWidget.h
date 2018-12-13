@@ -7,6 +7,8 @@
 #include <QSqlRecord>
 #include <QSqlTableModel>
 
+#include <Model/BookModel.h>
+
 namespace Ui {
 class BookWidget;
 }
@@ -24,13 +26,13 @@ public:
 
     void setStatusFor(WidgetStatus status);
 
+    QTableView* viewPtr();
+    AbModel* modelPtr();
+
 public slots:
     void newItem(bool checked);
     void changeItem(bool checked);
-    //void submitItem();
-    void changePwd();
-
-    void createItem(QSqlRecord &rec);
+    bool createItem(QSqlRecord& rec);
 
     bool setRecord(const QSqlRecord& rec);
 
@@ -42,8 +44,6 @@ protected slots:
 private slots:
     void on_bkBtnFind_clicked();
 
-    void on_btn_detail_clicked(bool checked);
-
     void on_btn_borrow_clicked();
 
 private:
@@ -52,8 +52,8 @@ private:
     void setColumnsHideFor(WidgetStatus status);
 
     Ui::BookWidget *ui;
-    QSqlTableModel* model;
-    BookInfo* bookInfo;
+    BookModel* model;
+    BookInfo bookInfo;
 };
 
 #endif // BOOKWIDGET_H

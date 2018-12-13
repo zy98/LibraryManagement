@@ -24,7 +24,6 @@ public slots:
 
 private slots:
     void reLogin();
-    void on_actionChangePwd_triggered();
     void createAction(bool status);
     void alterAction(bool status);
 

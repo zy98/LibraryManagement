@@ -70,6 +70,7 @@ void MainWindow::createAction(bool status)
     ui->actionNextRow->setEnabled(!status);
     ui->actionPrevRow->setEnabled(!status);
 
+    ui->actionChangeItem->setEnabled(!status);
     ui->actionDeleteItem->setEnabled(!status);
     ui->actionSubmit->setEnabled(!status);
     ui->actionChangePwd->setEnabled(!status);
@@ -128,8 +129,6 @@ Widget *MainWindow::initWiget(const QSqlRecord& rec)
         widget = w;
         connectWidget();
     }
-
-    if(!widget) widget = new Widget(this);
     return widget;
 }
 
@@ -176,34 +175,4 @@ void MainWindow::setActionVisable(bool status)
     ui->actionDeleteItem->setVisible(status);
 }
 
-void MainWindow::on_actionChangePwd_triggered()
-{
-    QString srcPwd = QInputDialog::getText(this,Widget::TU8("修改密码"),Widget::TU8("原密码："),
-                                           QLineEdit::Password);
-    if(srcPwd == "") return;
 
-    QString newPwd = QInputDialog::getText(this,Widget::TU8("修改密码"),Widget::TU8("新密码："),
-                                           QLineEdit::PasswordEchoOnEdit);
-    if(newPwd == "") return;
-
-    if(srcPwd != newPwd)
-    {
-        QSqlDatabase db = QSqlDatabase::database("Library");
-
-        QSqlQuery query(db);
-
-        query.prepare("exec proc_update_pwd ?, ?, ?");
-        query.addBindValue(record.value(0));
-        query.addBindValue(srcPwd);
-        query.addBindValue(newPwd);
-
-        if(!query.exec())
-            setStatusMsg(query.lastError().databaseText(),3000);
-
-        else
-            setStatusMsg("修改密码成功！");
-        return;
-    }
-
-    setStatusMsg("新密码与原密码相同，已取消修改！",4000);
-}

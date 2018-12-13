@@ -49,7 +49,7 @@ void ReaderDelegate::paint
 
         auto data = index.data().toInt();
         if(data == 0)
-            painter->drawText(option.rect,QString::fromLocal8Bit("正常"));
+            painter->drawText(option.rect,QString::fromLocal8Bit("正常") );
         else if(data == 1)
             painter->drawText(option.rect,QString::fromLocal8Bit("挂失"));
         else if(data == 2)

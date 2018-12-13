@@ -40,13 +40,6 @@
         <property name="bottomMargin">
          <number>5</number>
         </property>
-        <item row="0" column="3">
-         <widget class="QLineEdit" name="edit_pub">
-          <property name="clearButtonEnabled">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
         <item row="0" column="6">
          <widget class="QLabel" name="label_11">
           <property name="text">
@@ -61,6 +54,13 @@
           </property>
          </widget>
         </item>
+        <item row="0" column="5">
+         <widget class="QLineEdit" name="edit_author">
+          <property name="clearButtonEnabled">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
         <item row="0" column="8">
          <widget class="QLabel" name="label_7">
           <property name="text">
@@ -68,27 +68,20 @@
           </property>
          </widget>
         </item>
+        <item row="0" column="10">
+         <widget class="QCheckBox" name="ckb_find">
+          <property name="text">
+           <string>模糊查询</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
         <item row="0" column="2">
          <widget class="QLabel" name="label_9">
           <property name="text">
            <string> 出版社</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="12">
-         <widget class="QPushButton" name="btn_detail">
-          <property name="text">
-           <string>详细</string>
-          </property>
-          <property name="checkable">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="5">
-         <widget class="QLineEdit" name="edit_author">
-          <property name="clearButtonEnabled">
-           <bool>true</bool>
           </property>
          </widget>
         </item>
@@ -106,12 +99,9 @@
           </property>
          </widget>
         </item>
-        <item row="0" column="10">
-         <widget class="QCheckBox" name="ckb_find">
-          <property name="text">
-           <string>模糊查询</string>
-          </property>
-          <property name="checked">
+        <item row="0" column="3">
+         <widget class="QLineEdit" name="edit_pub">
+          <property name="clearButtonEnabled">
            <bool>true</bool>
           </property>
          </widget>
@@ -149,40 +139,36 @@
      <property name="title">
       <string>筛选</string>
      </property>
-     <layout class="QGridLayout" name="gridlayout_match" columnstretch="0,2,2,2,0,2,0">
+     <layout class="QGridLayout" name="gridlayout_match" columnstretch="0,0,0,0,0,0,0">
       <property name="topMargin">
        <number>5</number>
       </property>
       <property name="bottomMargin">
        <number>5</number>
       </property>
-      <item row="0" column="4">
-       <widget class="QDateEdit" name="dateEdit"/>
-      </item>
-      <item row="0" column="3">
-       <widget class="QComboBox" name="comboBox">
-        <item>
-         <property name="text">
-          <string>全部图书</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>出版日期</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>入库日期</string>
-         </property>
-        </item>
-       </widget>
-      </item>
       <item row="0" column="6">
-       <widget class="QDateEdit" name="dateEdit_2"/>
+       <widget class="QCheckBox" name="checkBox">
+        <property name="text">
+         <string>自适应列宽</string>
+        </property>
+       </widget>
       </item>
       <item row="0" column="1">
        <widget class="QComboBox" name="comboBox_2"/>
+      </item>
+      <item row="0" column="2">
+       <widget class="QCheckBox" name="checkBox_2">
+        <property name="text">
+         <string>CheckBox</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="4">
+       <widget class="QCheckBox" name="checkBox_3">
+        <property name="text">
+         <string>显示全部</string>
+        </property>
+       </widget>
       </item>
       <item row="0" column="0">
        <widget class="QLabel" name="label_8">
@@ -194,17 +180,10 @@
         </property>
        </widget>
       </item>
-      <item row="0" column="5">
-       <widget class="QLabel" name="label_6">
+      <item row="0" column="3">
+       <widget class="QCheckBox" name="checkBox_4">
         <property name="text">
-         <string>---&gt;</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="2">
-       <widget class="QCheckBox" name="checkBox">
-        <property name="text">
-         <string>自适应列宽</string>
+         <string>显示密码</string>
         </property>
        </widget>
       </item>

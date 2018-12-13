@@ -1,6 +1,8 @@
 ﻿#include "BorrowInfoWidget.h"
 #include "ui_BorrowInfoWidget.h"
 
+#include "Model/BorrowInfoModel.h"
+
 #include <QSqlRelationalTableModel>
 #include <QDebug>
 
@@ -11,14 +13,10 @@ BorrowInfoWidget::BorrowInfoWidget(QWidget *parent) :
     ui->setupUi(this);
 
     QSqlDatabase db = QSqlDatabase::database("Library");
-    model = new QSqlRelationalTableModel(ui->tableView,db);
-    model->setTable("Borrow");
+    model = new BorrowInfoModel(ui->tableView,db);
 
     initModel();
     initView();
-
-    tabModel = model;
-    view = ui->tableView;
 }
 
 BorrowInfoWidget::~BorrowInfoWidget()
@@ -39,7 +37,7 @@ void BorrowInfoWidget::initView()
 {
     ui->tableView->setModel(model);
     ui->tableView->setSelectionBehavior(QTableView::SelectRows);
-    ui->tableView->setSelectionMode(QTableView::ExtendedSelection);
+    ui->tableView->setSelectionMode(QTableView::SingleSelection);
 }
 void BorrowInfoWidget::initModel()
 {
@@ -47,12 +45,24 @@ void BorrowInfoWidget::initModel()
 
 void BorrowInfoWidget::setReader(const QString& rd)
 {
-    model->setFilter(QString("rdID = %1 ").arg(rd));
-    qDebug()<<"setFilter";
-    if(!model->select())
-    {
-        qDebug()<<"select";
-        showError(lastError());
-    }
+    QMap<QString, QVariant> map;
+    map["rdID"] = rd;
+    if(!model->selectItem(map,false))
+        showError(model->dbError());
 }
 
+QTableView* BorrowInfoWidget::viewPtr()
+{
+    return ui->tableView;
+}
+AbModel* BorrowInfoWidget::modelPtr()
+{
+    return model;
+}
+
+
+void BorrowInfoWidget::on_btn_returnBook_clicked()
+{
+    if(!model->returnBook(ui->tableView->selectionModel()))
+        showError(model->dbError());
+}

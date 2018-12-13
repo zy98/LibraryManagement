@@ -38,10 +38,9 @@ SOURCES += \
     UI/ReaderInfo.cpp \
     UI/ReaderWidget.cpp \
     UI/Widget.cpp \
-    Database.cpp \
-    LoginDialog.cpp \
-    main.cpp \
-    MainWindow.cpp \
+    Model/ReaderModel.cpp \
+    Model/BookModel.cpp \
+    Model/BorrowInfoModel.cpp \
     Model/AbModel.cpp
 
 
@@ -61,10 +60,10 @@ HEADERS += \
     UI/ReaderInfo.h \
     UI/ReaderWidget.h \
     UI/Widget.h \
-    Database.h \
-    LoginDialog.h \
-    MainWindow.h \
-    Model/AbModel.h
+    Model/AbModel.h \
+    Model/ReaderModel.h \
+    Model/BookModel.h \
+    Model/BorrowInfoModel.h
 
 
 

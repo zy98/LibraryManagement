@@ -35,6 +35,8 @@ protected:
     int showError(const char* s);
     int showError(const QString& s);
 
+    bool checkError(int status);
+
     int showDone(const char* s);
     int showDone(const QString& s);
 };

@@ -15,7 +15,7 @@ BorrowWidget::BorrowWidget(QWidget *parent) :
     ui->book->setStatusFor(BorrowAdmin);
 
     connect(ui->book,SIGNAL(statusMes(const QString&,int)),this,SIGNAL(statusMes(const QString&,int)));
-    connect(ui->book,SIGNAL(borrowBook(long long)),this,SLOT(BorrowBook(long long)));
+    connect(ui->book,SIGNAL(borrowBook(long long)),this,SLOT(BorrowBook(long long)));    
 }
 
 BorrowWidget::~BorrowWidget()
@@ -25,27 +25,23 @@ BorrowWidget::~BorrowWidget()
 
 void BorrowWidget::first()
 {
-    auto widget = static_cast<Widget*>(ui->tabWidget->currentWidget());
-    if(widget)
-        widget->first();
+    auto widget = currentWidget();
+    if(widget)  widget->first();
 }
 void BorrowWidget::last()
 {
-    auto widget = static_cast<Widget*>(ui->tabWidget->currentWidget());
-    if(widget)
-        widget->last();
+    auto widget = currentWidget();
+    if(widget)  widget->last();
 }
 void BorrowWidget::next()
 {
-    auto widget = static_cast<Widget*>(ui->tabWidget->currentWidget());
-    if(widget)
-        widget->next();
+    auto widget = currentWidget();
+    if(widget)  widget->next();
 }
 void BorrowWidget::prev()
 {
-    auto widget = static_cast<Widget*>(ui->tabWidget->currentWidget());
-    if(widget)
-        widget->prev();
+    auto widget = currentWidget();
+    if(widget)  widget->prev();
 }
 
 //for BorrowAdmin Reader
@@ -64,56 +60,45 @@ void BorrowWidget::setStatusFor(WidgetStatus status)
 
 void BorrowWidget::on_btn_find_clicked()
 {
-    readerID = "";
-    auto id = ui->edit_id->text();
-    if(id == "")
-        return;
-
-    QSqlDatabase db = QSqlDatabase::database("Library");
-
-    QSqlQuery query(db);   
-    query.prepare("select * from Reader where rdID = ?");
-    query.addBindValue(id);
-    if(!query.exec())
+    auto name = ui->edit_id->text();
+    if(!AbModel::seachReader(name,readerRec))
     {
-        showError(query.lastError().databaseText());
+        emit statusMes(U8("找不到此人"),3000);
         return;
     }
 
-    if(!query.first())
-    {
-        emit statusMes(U8("找不到读者：") + id, 3000);
-        return;
-    }
-    auto rec = query.record();
-    ui->reader->readRecord(rec);
-    readerID = rec.value(0).toString();
-    ui->borrow->setReader(readerID);
-    qDebug()<<"find";
-}
-
-void BorrowWidget::setCheck(QString rdid, long long bkid)
-{
-
+    ui->reader->readRecord(readerRec);
+    ui->borrow->setReader(name);
 }
 
 void BorrowWidget::BorrowBook(long long book)
 {
-    qDebug()<<"Borrow:"<<book;
-    if(readerID == "")
-        return;
-
-    QSqlDatabase db = QSqlDatabase::database("Library");
-
-    QSqlQuery query(db);
-    query.prepare("exec usp_borrow_book ? , ?");
-    qDebug()<<"reader:"<<readerID<<"  book:"<<book;
-    query.addBindValue(readerID);
-    query.addBindValue(book);
-
-    if(!query.exec())
+    if(!readerRec.isEmpty())
     {
-        showError(query.lastError().databaseText());
-        return;
+        QString name = readerRec.value(0).toString();
+        if(AbModel::borrowBookProc(name, book))
+        {
+            ui->book->modelPtr()->select();
+            ui->borrow->setReader(name);
+            if(AbModel::seachReader(name,readerRec))
+                ui->reader->readRecord(readerRec);
+        }
     }
+}
+
+Widget* BorrowWidget::currentWidget()
+{
+    Widget* widget = nullptr;
+    widget = static_cast<Widget*>(ui->tabWidget->currentWidget());
+    return widget;
+}
+
+QTableView* BorrowWidget::viewPtr()
+{
+    return currentWidget()->viewPtr();
+
+}
+AbModel* BorrowWidget::modelPtr()
+{
+    return currentWidget()->modelPtr();
 }

@@ -17,6 +17,7 @@ BookInfo::BookInfo(QWidget *parent) :
 
 BookInfo::~BookInfo()
 {
+    qDebug()<<"BookInfo::~BookInfo()";
     delete ui;
 }
 

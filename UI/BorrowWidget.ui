@@ -102,15 +102,15 @@
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>BookWidget</class>
-   <extends>QWidget</extends>
-   <header location="global">BookWidget.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
    <class>BorrowInfoWidget</class>
    <extends>QWidget</extends>
    <header location="global">BorrowInfoWidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>BookWidget</class>
+   <extends>QWidget</extends>
+   <header location="global">BookWidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

@@ -2,6 +2,7 @@
 #define READERWIDGET_H
 
 #include <QSqlRelationalTableModel>
+#include <Model/ReaderModel.h>
 #include "Widget.h"
 #include "ReaderInfo.h"
 
@@ -17,12 +18,15 @@ public:
     explicit ReaderWidget(QWidget *parent = nullptr);
     ~ReaderWidget();
 
+    QTableView* viewPtr();
+    AbModel* modelPtr();
+
 public slots:
     void newItem(bool checked);
     void changeItem(bool checked);
-    void changePwd();
 
     bool setRecord(const QSqlRecord& rec);
+    bool createItem(QSqlRecord &rec);
 
 protected:
     void closeEvent(QCloseEvent* event);
@@ -42,9 +46,10 @@ private:
     void initView();
     void initModel();
     void setReaderStatus(int status);
+    void setStatusFor(WidgetStatus status){}
 
     Ui::ReaderWidget *ui;
-    QSqlRelationalTableModel* model;
+    ReaderModel* model;
 };
 
 #endif // READERWIDGET_H

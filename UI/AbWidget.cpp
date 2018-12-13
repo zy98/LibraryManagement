@@ -23,7 +23,6 @@ int AbWidget::showError(const char* s)
 {
     return showError(U8(s));
 }
-
 int AbWidget::showError(const QString& s)
 {
     QMessageBox dialog(QMessageBox::Critical,U8("Error"),s);
@@ -31,6 +30,11 @@ int AbWidget::showError(const QString& s)
     dialog.setButtonText(QMessageBox::Reset,U8("撤销"));
     dialog.setButtonText(QMessageBox::Cancel,U8("取消"));
     return dialog.exec();
+}
+
+bool checkError(int status)
+{
+    return true;
 }
 
 int AbWidget::showDone(const char* s)

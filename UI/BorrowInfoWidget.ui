@@ -37,7 +37,7 @@
         <item row="0" column="1">
          <widget class="QPushButton" name="pushButton_3">
           <property name="text">
-           <string>搜索书名</string>
+           <string>搜索书号</string>
           </property>
          </widget>
         </item>

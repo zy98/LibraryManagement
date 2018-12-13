@@ -2,6 +2,7 @@
 #define BORROWWIDGET_H
 
 #include "Widget.h"
+#include "AbWidget.h"
 
 namespace Ui {
 class BorrowWidget;
@@ -17,6 +18,10 @@ public:
 
     void setStatusFor(WidgetStatus status);
 
+    //直接返回指针不安全
+    QTableView* viewPtr();
+    AbModel* modelPtr();
+
 public slots:
     void first();
     void last();
@@ -25,15 +30,8 @@ public slots:
 
     void newItem(bool checked){}
     void changeItem(bool checked){}
-    void deleteItem(){}
-    void submitItem(){}
-    void changePwd(){}
 
     void BorrowBook(long long book);
-
-//    void createItem(QSqlRecord& rec){}
-
-//    bool setRecord(const QSqlRecord& rec){return true;}
 
 protected:
     void initView(){}
@@ -45,11 +43,11 @@ private slots:
     void on_btn_find_clicked();
 
 private:
-    void setCheck(QString rdid = "", long long bkid = 0);
+    Widget* currentWidget();
 
     Ui::BorrowWidget *ui;
 
-    QString readerID;
+    QSqlRecord readerRec;
 };
 
 #endif // BORROWWIDGET_H
