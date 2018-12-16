@@ -5,17 +5,16 @@
 #include <QSqlQuery>
 #include <QDebug>
 #include <QSqlError>
+#include <QFileDialog>
 #include "Model/ReaderModel.h"
+
+
 
 ReaderInfo::ReaderInfo(QWidget *parent) :
     InfoWidget(parent),
     ui(new Ui::ReaderInfo)
 {
     ui->setupUi(this);
-//    ui->cmb_status->addItem("0","nomal");
-//    ui->cmb_status->addItem("1","loss");
-//    ui->cmb_status->addItem("2","discard");
-
     setStatusFor(Display);
 }
 
@@ -66,7 +65,7 @@ void ReaderInfo::setWidgetMapper(QDataWidgetMapper *mapper)
     mapper->addMapping(ui->edit_lend,6);
     mapper->addMapping(ui->edit_dept,7);
     mapper->addMapping(ui->date,8);
-    //mapper->addMapping();
+    mapper->addMapping(ui->photo,9);
     mapper->addMapping(ui->cmb_status,10);
     mapper->addMapping(ui->edit_tele,11);
     mapper->addMapping(ui->edit_mail,12);
@@ -81,7 +80,7 @@ void ReaderInfo::setStatusFor(WidgetStatus status)
         ui->btn_submit->show();
         ui->edit_id->setEnabled(true);
         ui->btn_loss->setEnabled(false);
-        ui->btn_pwd->setEnabled(false);
+        ui->btn_save->setEnabled(false);
     }
     else if(status == Alter)
     {
@@ -100,19 +99,30 @@ void ReaderInfo::on_btn_loss_clicked()
     auto name = ui->edit_id->text();
     if(name != "")
     {
-        if(ReaderModel::setLoss(name))
+        auto error = ReaderModel::setLoss(name);
+        if(error.type() != QSqlError::NoError)
             ui->cmb_status->setCurrentIndex(1);
     }
 }
-
-void ReaderInfo::on_btn_pwd_clicked()
-{
-
-}
-
 void ReaderInfo::on_btn_upload_clicked()
 {
+    QString fileStr = QFileDialog::getOpenFileName
+            (this,U8("选择图片"),"","Images (*.png *.jpg)");
 
+    if(fileStr != "")
+    {
+        QFile file(fileStr);
+        QSharedPointer<QByteArray> data(new QByteArray);
+        file.open(QIODevice::ReadOnly);
+        *data = file.readAll();
+        qDebug()<<"data:"<<data->count();
+
+        QPixmap pix;
+        pix.loadFromData(*data);
+        ui->photo->setPixmap(pix);
+        ui->photo->setScaledContents(true);
+        emit updatePicture(data);
+    }
 }
 
 void ReaderInfo::on_btn_submit_clicked()
@@ -135,7 +145,7 @@ void ReaderInfo::writeRecord(QSqlRecord& rec)
 
     rec.setValue(2,ui->edit_name->text());
     rec.setValue(3,ui->cmb_sex->currentText());
-    rec.setValue(4,ui->cmb_typeid->currentIndex());
+    rec.setValue(4,ui->cmb_typeid->currentIndex()+1);
     rec.setValue(5,ui->edit_user_code->text());
     rec.setValue(6,ui->edit_lend->text());
     rec.setValue(7,ui->edit_dept->text());
@@ -164,7 +174,7 @@ void ReaderInfo::setEnable(bool flag)
     ui->btn_upload->setEnabled(true);
 //    auto index = ui->cmb_status->currentIndex();
 //    ui->btn_loss->setEnabled(!index);
-    ui->btn_pwd->setEnabled(flag);
+    ui->btn_save->setEnabled(flag);
 
     ui->btn_submit->hide();
 }

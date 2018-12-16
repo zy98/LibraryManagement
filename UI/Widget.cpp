@@ -98,3 +98,10 @@ bool Widget::createItem(QSqlRecord& rec)
     if(!ret) showError(modelPtr()->dbError());
     return ret;
 }
+
+bool Widget::updatePicture(QSharedPointer<QByteArray> dataImg)
+{
+    qDebug()<<"call updatePicture";
+    return modelPtr()->uploadPicture(viewPtr()->selectionModel(),dataImg);
+}
+

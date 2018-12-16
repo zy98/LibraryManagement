@@ -11,10 +11,11 @@ AbModel::AbModel(QObject *parent, QSqlDatabase db):
 
 AbModel::~AbModel(){}
 
-bool AbModel::seachReader(const QString& name,QSqlRecord& rec)
+QSqlError AbModel::seachReader(const QString& name,QSqlRecord& rec)
 {
-    bool ret = !name.isEmpty();
-    if(ret)
+    QSqlError ret;
+    qDebug()<<ret;
+    if(!name.isEmpty())
     {
         QSqlDatabase db = QSqlDatabase::database("Library");
         QSqlQuery query(db);
@@ -23,24 +24,23 @@ bool AbModel::seachReader(const QString& name,QSqlRecord& rec)
         if(query.exec() && query.first())
             rec = query.record();
         else
-            ret = false;
+            ret = db.lastError();
     }
     return ret;
 }
 
-bool AbModel::borrowBookProc(const QString& rdid, long long bkid)
+QSqlError AbModel::borrowBookProc(const QString& rdid, long long bkid)
 {
-    bool ret = true;
+    QSqlError ret;
     QSqlDatabase db = QSqlDatabase::database("Library");
 
-    int retCode = 0;
     QSqlQuery query(db);
     query.prepare("exec usp_borrow_book ? , ? ");
     query.addBindValue(rdid);
     query.addBindValue(bkid);
 
     if( !query.exec())
-        ret = false;
+        ret = db.lastError();
 
     return ret;
 }
@@ -69,7 +69,12 @@ bool AbModel::fetch()
 }
 bool AbModel::submitData()
 {
-    return submitAll() && select();
+    bool ret = submitAll();
+    if(!ret)
+        revert();
+
+    return ret;
+    //return submitAll() && select();
 }
 
 QString AbModel::dbError()
@@ -126,3 +131,15 @@ bool AbModel::selectItem(const QMap<QString, QVariant> &filter, bool flag)
     return ret;
 }
 
+bool AbModel::uploadPicture
+(QItemSelectionModel* selection, QSharedPointer<QByteArray> dataImg)
+{
+    bool ret = true;
+    auto list = selection->selectedRows(9);
+    if(list.size() == 1)
+        ret = setData(list[0],*dataImg);
+
+    ret = ret && submitData() && select();
+
+    return ret;
+}

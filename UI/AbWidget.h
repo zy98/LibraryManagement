@@ -1,4 +1,5 @@
-﻿#ifndef ABWIDGET_H
+﻿
+#ifndef ABWIDGET_H
 #define ABWIDGET_H
 
 #include <QWidget>

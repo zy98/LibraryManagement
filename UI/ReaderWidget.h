@@ -28,8 +28,6 @@ public slots:
     bool setRecord(const QSqlRecord& rec);
     bool createItem(QSqlRecord &rec);
 
-protected:
-    void closeEvent(QCloseEvent* event);
 
 private slots:
     void on_btn_find_clicked();
@@ -41,6 +39,10 @@ private slots:
     void on_btn_user_disable_clicked();
 
     void on_btn_normal_clicked();
+
+    void on_btn_reset_clicked();
+
+    void on_btn_reapply_clicked();
 
 private:
     void initView();

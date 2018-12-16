@@ -37,6 +37,7 @@ public slots:
     virtual bool createItem(QSqlRecord& rec);
 
     virtual bool setRecord(const QSqlRecord& rec);
+    virtual bool updatePicture(QSharedPointer<QByteArray> dataImg);
 
 protected:
     virtual void initView(){}

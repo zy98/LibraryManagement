@@ -15,8 +15,8 @@ public:
     AbModel(QObject *parent = nullptr, QSqlDatabase db = QSqlDatabase());
     virtual ~AbModel() = 0;
 
-    static bool seachReader(const QString& name, QSqlRecord& rec);
-    static bool borrowBookProc(const QString& rdid, long long bkid);
+    static QSqlError seachReader(const QString& name, QSqlRecord& rec);
+    static QSqlError borrowBookProc(const QString& rdid, long long bkid);
 
     QString U8(const char* s);
 
@@ -33,6 +33,11 @@ public:
     virtual bool fillRowItem(int row, QSqlRecord& rec);
     virtual bool deleteItem(QItemSelectionModel* selection);
     virtual bool selectItem(const QMap<QString,QVariant>& filter, bool flag);
+
+    virtual bool uploadPicture(QItemSelectionModel* selection, QSharedPointer<QByteArray> dataImg);
+
+protected:
+    QSqlError error;
 };
 
 #endif // ABMODEL_H

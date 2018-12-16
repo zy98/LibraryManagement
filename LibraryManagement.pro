@@ -41,7 +41,8 @@ SOURCES += \
     Model/ReaderModel.cpp \
     Model/BookModel.cpp \
     Model/BorrowInfoModel.cpp \
-    Model/AbModel.cpp
+    Model/AbModel.cpp \
+    Delegate/ReaderWidgetMappingDelegate.cpp
 
 
 
@@ -63,7 +64,8 @@ HEADERS += \
     Model/AbModel.h \
     Model/ReaderModel.h \
     Model/BookModel.h \
-    Model/BorrowInfoModel.h
+    Model/BorrowInfoModel.h \
+    Delegate/ReaderWidgetMappingDelegate.h
 
 
 

@@ -61,7 +61,8 @@ void BorrowWidget::setStatusFor(WidgetStatus status)
 void BorrowWidget::on_btn_find_clicked()
 {
     auto name = ui->edit_id->text();
-    if(!AbModel::seachReader(name,readerRec))
+    auto error = AbModel::seachReader(name,readerRec);
+    if(error.type() != QSqlError::NoError)
     {
         emit statusMes(U8("找不到此人"),3000);
         return;
@@ -76,15 +77,18 @@ void BorrowWidget::BorrowBook(long long book)
     if(!readerRec.isEmpty())
     {
         QString name = readerRec.value(0).toString();
-        if(!AbModel::borrowBookProc(name, book))
-            showError(modelPtr()->dbError());
+        auto error = AbModel::borrowBookProc(name, book);
+        if(error.type() != QSqlError::NoError)
+            showError(error.text());
 
 
         ui->book->modelPtr()->select();
         ui->borrow->setReader(name);
-        if(AbModel::seachReader(name,readerRec))
-            ui->reader->readRecord(readerRec);
+        error = AbModel::seachReader(name,readerRec);
+        if(error.type() != QSqlError::NoError)
+                showError(error.text());
 
+        ui->reader->readRecord(readerRec);
     }
 }
 

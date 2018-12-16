@@ -12,6 +12,7 @@ class InfoWidget : public AbWidget
 
 signals:
     void new_data(QSqlRecord&);
+    void updatePicture(QSharedPointer<QByteArray> dataImg);
 
 public:
     explicit InfoWidget(QWidget *parent = nullptr):AbWidget(parent){}

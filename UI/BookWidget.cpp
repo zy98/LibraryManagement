@@ -15,12 +15,8 @@ BookWidget::BookWidget(QWidget *parent) :
     bookInfo.setWindowFlags(Qt::Window);
     ui->groupMatch->hide();
 
-    auto db = QSqlDatabase::database("Library");
-    model = new BookModel(ui->tableView,db);
-    model->setFetchTable("Book");
-    //initModel();
+    initModel();
     initView();
-
 
     connect(&bookInfo,SIGNAL(prev()),this,SLOT(prev()));
     connect(&bookInfo,SIGNAL(next()),this,SLOT(next()));
@@ -78,7 +74,26 @@ void BookWidget::initView()
 }
 
 void BookWidget::initModel()
-{    
+{
+    auto db = QSqlDatabase::database("Library");
+    model = new BookModel(ui->tableView,db);
+
+    model->setHeaderData(0,Qt::Horizontal,U8("图书编号"));
+    model->setHeaderData(1,Qt::Horizontal,U8("书名"));
+    model->setHeaderData(2,Qt::Horizontal,U8("作者"));
+    model->setHeaderData(3,Qt::Horizontal,U8("出版社"));
+    model->setHeaderData(4,Qt::Horizontal,U8("出版日期"));
+    model->setHeaderData(5,Qt::Horizontal,U8("ISBN"));
+    model->setHeaderData(6,Qt::Horizontal,U8("分类"));
+    model->setHeaderData(7,Qt::Horizontal,U8("语言"));
+    model->setHeaderData(8,Qt::Horizontal,U8("页数"));
+    model->setHeaderData(9,Qt::Horizontal,U8("价格"));
+    model->setHeaderData(10,Qt::Horizontal,U8("入库日期"));
+    model->setHeaderData(11,Qt::Horizontal,U8("简介"));
+    model->setHeaderData(12,Qt::Horizontal,U8("封面"));
+    model->setHeaderData(13,Qt::Horizontal,U8("状态"));
+    model->setHeaderData(14,Qt::Horizontal,U8("数量"));
+
     //映射数据
     QDataWidgetMapper* mapper = new QDataWidgetMapper(this);
     mapper->setModel(model);
@@ -90,7 +105,7 @@ void BookWidget::initModel()
 
     //select 并不耗时，但最好还是不要初始化时直接select
     //select时间和数据大小成正比
-    if(!model->fetch())
+    if(!model->select())
         showError(model->dbError());
 }
 
@@ -108,7 +123,6 @@ void BookWidget::setStatusFor(WidgetStatus status)
         //ui->groupMatch->show();
         setColumnsHideFor(BookAdmin);
         model->setFetchTable("Book");
-        initModel();
         model->setAutoSubmit();
         return;
     }
@@ -117,17 +131,15 @@ void BookWidget::setStatusFor(WidgetStatus status)
         ui->groupBorrow->show();
         ui->groupMatch->hide();
         model->setFetchTable("bookInLibrary");
-        initModel();
         ui->tableView->setEditTriggers(QTableView::NoEditTriggers);
         ui->tableView->setSelectionMode(QTableView::SingleSelection);
         setColumnsHideFor(BorrowAdmin);
-
         return;
     }
 
     ui->groupBorrow->hide();
     ui->groupMatch->hide();
-    setColumnsHideFor(BookAdmin);
+    setColumnsHideFor(Reader);
 }
 
 void BookWidget::newItem(bool checked)

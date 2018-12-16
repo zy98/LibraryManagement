@@ -4,6 +4,8 @@
 #include <QSqlError>
 #include <QSqlQuery>
 #include <QSqlRecord>
+#include <QDebug>
+#include <QInputDialog>
 
 
 ReaderModel::ReaderModel(QObject *parent, QSqlDatabase db):
@@ -32,8 +34,9 @@ ReaderModel::ReaderModel(QObject *parent, QSqlDatabase db):
     setRelation(fieldIndex("rdType"),QSqlRelation("ReaderType","rdType","typeName"));
 }
 
-bool ReaderModel::setLoss(const QString& name)
+QSqlError ReaderModel::setLoss(const QString& name)
 {
+    QSqlError ret;
     QSqlDatabase db = QSqlDatabase::database("Library");
     QSqlQuery query(db);
     query.prepare("update Reader set rdStatus = ? where rdID = ?");
@@ -41,7 +44,10 @@ bool ReaderModel::setLoss(const QString& name)
     query.addBindValue(1);
     query.addBindValue(name);
 
-    return query.exec();
+    if(!query.exec())
+        ret = db.lastError();
+
+    return ret;
 }
 
 bool ReaderModel::setRdStatusLoss(QItemSelectionModel* selection)
@@ -54,9 +60,40 @@ bool ReaderModel::setRdStatusNomal(QItemSelectionModel* selection)
 }
 bool ReaderModel::setRdStatusDisabled(QItemSelectionModel* selection)
 {
+    bool ret = (selection != nullptr);
+    if(ret)
+    {
+        auto rdList = selection->selectedRows(0);
+        auto statusList = selection->selectedRows(10);
+        auto db = database();
+        QSqlQuery query(db);
+        for(int i = 0; i < rdList.size(); i++)
+        {
+            //从未借书的情况可以直接注销
+            query.prepare("select * from Borrow where rdID = ? ");
+            query.addBindValue(rdList[i].data().toString());
+            ret = query.exec();
 
-    return setRdStatus(selection, 2);
+            if(ret && !query.next())
+            {
+                setData(statusList[i],2);
+                continue;
+            }
+
+            //借书并且没有未还或欠款记录的可以注销
+            query.prepare("select * from Borrow where rdID = '?' "
+                          "and ( returnDate is NULL or fine > 0 )" );
+            query.addBindValue(rdList[i].data().toString());
+            ret = ret && query.exec();
+
+            if( ret && query.first())
+                setData(statusList[i], 2);
+        }
+    }
+    submitData();
+    return ret;
 }
+
 bool ReaderModel::setRdStatus(QItemSelectionModel* selection, int status)
 {
     bool ret = (selection != nullptr);
@@ -73,3 +110,42 @@ bool ReaderModel::setRdStatus(QItemSelectionModel* selection, int status)
     return ret;
 }
 
+bool ReaderModel::resetPassword(QItemSelectionModel* selection)
+{
+    bool ret = selection != nullptr;
+    if(ret)
+    {
+        auto list = selection->selectedRows(1);
+        for(auto& i : list)
+        {
+            ret = setData(i,"123456");
+            if(!ret) break;
+        }
+    }
+    ret = ret && submitData();
+
+    return ret;
+}
+
+bool ReaderModel::reapply(QItemSelectionModel* selection,QSqlRecord& rec)
+{
+    bool ret = true;
+    auto status = selection->selectedRows(10);
+    auto id  = selection->selectedRows(0);
+    ret = setData(status[0],2);//设置原账户注销
+
+    ret = ret && insertRecord(0,rec);
+
+    if(!(ret = submitAll()))
+    {
+        revert();//失败
+        return ret;
+    }
+
+    QSqlQuery query(database());
+    query.prepare("update Borrow set rdID = ? where rdID = ? ");
+    query.addBindValue(rec.value(0));
+    query.addBindValue(id.at(0));
+    ret = query.exec();
+    return ret;
+}

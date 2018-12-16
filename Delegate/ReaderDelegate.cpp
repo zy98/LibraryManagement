@@ -29,7 +29,7 @@ void ReaderDelegate::paint
     if(index.column() == 1)
     {
         auto rect = option.rect;
-        painter->setBrush(QBrush(Qt::black));
+        painter->setBrush(QBrush(Qt::lightGray));
         painter->drawRect(rect);
         return;
     }
@@ -135,6 +135,18 @@ void ReaderDelegate::setModelData
         }
         return;
     }
+
+//    if(index.column() == 4)
+//    {
+//        auto box =static_cast<QComboBox*>(editor);
+//        if(box)
+//        {
+//            qDebug()<<"box";
+//            model->setData(index,box->currentIndex() + 1);
+//            qDebug()<<index.data().toInt();
+//        }
+//        return;
+//    }
 
     if(index.column() == 10)
     {

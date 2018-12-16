@@ -34,31 +34,10 @@
         <string>操作</string>
        </property>
        <layout class="QGridLayout" name="gridLayout">
-        <item row="0" column="1">
-         <widget class="QPushButton" name="pushButton_3">
+        <item row="0" column="4">
+         <widget class="QCheckBox" name="checkBox_3">
           <property name="text">
-           <string>搜索书号</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="2">
-         <widget class="QCheckBox" name="checkBox_4">
-          <property name="text">
-           <string>即将到期</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="5">
-         <widget class="QCheckBox" name="checkBox">
-          <property name="text">
-           <string>只看未还</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="7">
-         <widget class="QPushButton" name="btn_reLend">
-          <property name="text">
-           <string>续借</string>
+           <string>可续借</string>
           </property>
          </widget>
         </item>
@@ -69,13 +48,45 @@
           </property>
          </widget>
         </item>
-        <item row="0" column="0">
-         <widget class="QLineEdit" name="lineEdit"/>
-        </item>
-        <item row="0" column="4">
-         <widget class="QCheckBox" name="checkBox_3">
+        <item row="0" column="6">
+         <widget class="QCheckBox" name="checkBox_4">
           <property name="text">
-           <string>可续借</string>
+           <string>查看全部</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="2">
+         <widget class="QPushButton" name="pushButton_3">
+          <property name="text">
+           <string>搜索</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="7">
+         <widget class="QPushButton" name="btn_reLend">
+          <property name="text">
+           <string>续借</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="5">
+         <widget class="QCheckBox" name="checkBox">
+          <property name="text">
+           <string>只看未还</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QLineEdit" name="lineEdit">
+          <property name="placeholderText">
+           <string>图书编号</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QLineEdit" name="lineEdit_2">
+          <property name="placeholderText">
+           <string>读者编号</string>
           </property>
          </widget>
         </item>

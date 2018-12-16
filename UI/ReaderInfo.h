@@ -4,6 +4,7 @@
 #include <QAbstractTableModel>
 #include <QDataWidgetMapper>
 #include <QSqlRecord>
+#include <QStyledItemDelegate>
 #include "InfoWidget.h"
 
 namespace Ui {
@@ -30,7 +31,6 @@ public:
     void clear();
 
 
-
 public slots:
     //如果record不为空，则通过record设置显示数据;record与所需数据不符的情形未定义
     void readRecord(const QSqlRecord &rec);
@@ -40,8 +40,6 @@ public slots:
 private slots:
     //挂失按钮，0表示正常，1表示挂失，根据状态设置证件状态和挂失按钮
     void on_btn_loss_clicked();
-
-    void on_btn_pwd_clicked();
 
     void on_btn_upload_clicked();
 

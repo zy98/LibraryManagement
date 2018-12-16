@@ -8,7 +8,10 @@
 #include <QSqlError>
 #include <QSqlRelationalDelegate>
 #include <QSqlQuery>
+#include <QInputDialog>
 #include <ctime>
+#include "Delegate/ReaderWidgetMappingDelegate.h"
+
 
 ReaderWidget::ReaderWidget(QWidget *parent) :
     Widget(parent),
@@ -19,8 +22,13 @@ ReaderWidget::ReaderWidget(QWidget *parent) :
     initModel();
     initView();
 
+    //设置读者类型model
+    //ui->info->setReaderType(ui->cmb_type->model());
+
     connect(ui->info,SIGNAL(new_data(QSqlRecord&)),this,SLOT(createItem(QSqlRecord&)));
     connect(ui->cmb_type,SIGNAL(currentIndexChanged(int)),this,SLOT(typeIndexChanged(int)));
+    connect(ui->info,SIGNAL(updatePicture(QSharedPointer<QByteArray>)),
+            this,SLOT(updatePicture(QSharedPointer<QByteArray>)));
 }
 
 void ReaderWidget::initView()
@@ -31,13 +39,12 @@ void ReaderWidget::initView()
     ui->tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
 
     //隐藏数据
-    ui->tableView->setColumnHidden(1,true);
+    //ui->tableView->setColumnHidden(1,true);
     ui->tableView->setColumnHidden(8,true);
     ui->tableView->setColumnHidden(9,true);
 
     //初始化读者类别
     auto type = model->relationModel(4);
-    //qDebug()<<model->fieldIndex("rdType");无法获取正确数据？？？
     ui->info->setTypeModel(type, type->fieldIndex("typeName"));
     ui->cmb_type->setModel(type);
     ui->cmb_type->setModelColumn(1);
@@ -73,7 +80,7 @@ void ReaderWidget::initModel()
     QDataWidgetMapper* mapper = new QDataWidgetMapper(this);
     mapper->setModel(model);
     mapper->setSubmitPolicy(QDataWidgetMapper::AutoSubmit);
-    mapper->setItemDelegate(new QItemDelegate(mapper));
+    mapper->setItemDelegate(new ReaderWidgetMappingDelegate(mapper));
     ui->info->setWidgetMapper(mapper);
     connect(ui->tableView,SIGNAL(clicked(const QModelIndex&)),
             mapper,SLOT(setCurrentModelIndex(const QModelIndex&)));
@@ -87,11 +94,6 @@ void ReaderWidget::initModel()
 ReaderWidget::~ReaderWidget()
 {
     delete ui;
-}
-
-void ReaderWidget::closeEvent(QCloseEvent* event)
-{
-    qDebug()<<"ReaderWidget::closeEvent";
 }
 
 bool ReaderWidget::setRecord(const QSqlRecord& rec)
@@ -113,7 +115,7 @@ void  ReaderWidget::newItem(bool checked)
         model->insertItem();
         ui->tableView->selectRow(0);
         emit ui->tableView->clicked(modelPtr()->index(0,0));
-        //ui->tableView->setEnabled(false);
+        ui->tableView->setEnabled(false);
         return;
     }
 
@@ -204,5 +206,28 @@ bool ReaderWidget::createItem(QSqlRecord &rec)
     return ret;
 }
 
+void ReaderWidget::on_btn_reset_clicked()
+{
+    model->resetPassword(ui->tableView->selectionModel());
+}
 
-
+void ReaderWidget::on_btn_reapply_clicked()
+{
+    auto seModel = ui->tableView->selectionModel();
+    if(seModel->selectedRows(0).size() == 1)
+    {
+        QSqlRecord rec;
+        ui->info->writeRecord(rec);
+        if(!rec.isEmpty())
+        {
+            QString input = QInputDialog::getText(this,U8("读者补办"),U8("请输入新ID:"));
+            if(input != "")
+            {
+                rec.setValue(0,input);
+                qDebug()<<rec;
+                model->reapply(seModel, rec);
+            }
+        }
+    }
+    modelPtr()->select();
+}
