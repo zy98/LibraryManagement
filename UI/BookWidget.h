@@ -50,6 +50,7 @@ private:
     void initView();
     void initModel();
     void setColumnsHideFor(WidgetStatus status);
+    void PrivateInitModel(WidgetStatus status);
 
     Ui::BookWidget *ui;
     BookModel* model;

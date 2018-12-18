@@ -19,7 +19,6 @@ MainWindow::MainWindow(QWidget *parent, const QSqlRecord &rec) :
     ui->setupUi(this);
     resize(1550,780);
     QString name = rec.value(rec.indexOf("rdName")).toString();
-    setStatusFor(Reader);
     setCentralWidget(initWiget(rec));
     setStatusMsg(name + Widget::TU8("  登陆成功"));
 
@@ -92,43 +91,30 @@ Widget *MainWindow::initWiget(const QSqlRecord& rec)
     int flag = rec.value(rec.indexOf("rdType")).toInt();
     if(flag == 1)//系统管理员
     {
-        auto w = new ReaderWidget(this);
-        connect(w,SIGNAL(statusMes(QString,int)),this,SLOT(setStatusMsg(QString,int)));
-        w->setRecord(rec);
+        widget = new ReaderWidget(this);
         setStatusFor(ReaderAdmin);
-        widget = w;
-        connectWidget();
+        connect(widget,SIGNAL(statusMes(QString,int)),this,SLOT(setStatusMsg(QString,int)));
     }
     else if(flag == 2)//借阅管理员
     {
-        auto w = new BorrowWidget(this);
-        w->setStatusFor(BorrowAdmin);
+        widget = new BorrowWidget(this);
         setStatusFor(BorrowAdmin);
-        w->setRecord(rec);
-        connect(w,SIGNAL(statusMes(QString,int)),this,SLOT(setStatusMsg(QString,int)));
-        widget = w;
-        connectWidget();
+        connect(widget,SIGNAL(statusMes(QString,int)),this,SLOT(setStatusMsg(QString,int)));
     }
     else if(flag == 3)//图书管理员
     {
-        auto w = new BookWidget(this);
-        w->setStatusFor(BookAdmin);
-        w->setRecord(rec);
+        widget = new BookWidget(this);
         setStatusFor(BookAdmin);
-
-        widget = w;
-        connectWidget();
-
     }
     else//读者
     {
-        auto w = new BorrowWidget(this);
-        w->setStatusFor(Reader);
+        widget = new BorrowWidget(this);
         setStatusFor(Reader);
-        w->setRecord(rec);
-        widget = w;
-        connectWidget();
     }
+
+    widget->setRecord(rec);
+    connectWidget();
+
     return widget;
 }
 
@@ -152,6 +138,7 @@ void MainWindow::setStatusFor(WidgetStatus status)
 {
     if(status == ReaderAdmin)
     {
+        widget->setStatusFor(ReaderAdmin);
         setActionVisable(true);
         ui->actionNewItem->setText(Widget::TU8("办理借书证"));
         ui->actionChangeItem->setText(Widget::TU8("修改信息"));
@@ -159,12 +146,22 @@ void MainWindow::setStatusFor(WidgetStatus status)
     }
     else if(status == BookAdmin)
     {
+        widget->setStatusFor(BookAdmin);
         setActionVisable(true);
         ui->actionNewItem->setText(Widget::TU8("新书入库"));
         ui->actionChangeItem->setText(Widget::TU8("信息维护"));
         return;
     }
-    setActionVisable(false);
+    else if (status == BorrowAdmin)
+    {
+        widget->setStatusFor(BorrowAdmin);
+        setActionVisable(false);
+    }
+    else
+    {
+        widget->setStatusFor(Reader);
+        setActionVisable(false);
+    }
 }
 
 void MainWindow::setActionVisable(bool status)

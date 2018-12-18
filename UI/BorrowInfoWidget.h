@@ -15,6 +15,9 @@ class BorrowInfoWidget : public Widget
 {
     Q_OBJECT
 
+signals:
+    void returnBook(QItemSelectionModel* selection);
+
 public:
     explicit BorrowInfoWidget(QWidget *parent = nullptr);
     ~BorrowInfoWidget();
@@ -35,8 +38,10 @@ public:
 public slots:
     void readRecord(const QSqlRecord &rec){ record = rec; }
 
+
 private slots:
     void on_btn_returnBook_clicked();
+    void BtnFilter(int id);
 
 private:
     Ui::BorrowInfoWidget *ui;

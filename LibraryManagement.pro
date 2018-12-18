@@ -42,7 +42,10 @@ SOURCES += \
     Model/BookModel.cpp \
     Model/BorrowInfoModel.cpp \
     Model/AbModel.cpp \
-    Delegate/ReaderWidgetMappingDelegate.cpp
+    Delegate/ReaderWidgetMappingDelegate.cpp \
+    Delegate/BookDelegate.cpp \
+    UI/ReaderType.cpp \
+    Delegate/BookWidgetMappingDelegate.cpp
 
 
 
@@ -65,7 +68,10 @@ HEADERS += \
     Model/ReaderModel.h \
     Model/BookModel.h \
     Model/BorrowInfoModel.h \
-    Delegate/ReaderWidgetMappingDelegate.h
+    Delegate/ReaderWidgetMappingDelegate.h \
+    Delegate/BookDelegate.h \
+    UI/ReaderType.h \
+    Delegate/BookWidgetMappingDelegate.h
 
 
 
@@ -77,7 +83,8 @@ FORMS += \
     UI/BorrowInfoWidget.ui \
     UI/BorrowWidget.ui \
     UI/ReaderInfo.ui \
-    UI/ReaderWidget.ui
+    UI/ReaderWidget.ui \
+    UI/ReaderType.ui
 
 
 # Default rules for deployment.

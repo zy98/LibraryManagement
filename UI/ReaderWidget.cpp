@@ -2,6 +2,7 @@
 #include "UI/ReaderInfo.h"
 #include "ui_ReaderWidget.h"
 #include "MainWindow.h"
+#include "ReaderType.h"
 #include "Delegate//ReaderDelegate.h"
 #include <QDataWidgetMapper>
 #include <QDebug>
@@ -39,7 +40,7 @@ void ReaderWidget::initView()
     ui->tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
 
     //隐藏数据
-    //ui->tableView->setColumnHidden(1,true);
+    ui->tableView->setColumnHidden(1,true);
     ui->tableView->setColumnHidden(8,true);
     ui->tableView->setColumnHidden(9,true);
 
@@ -73,7 +74,6 @@ void ReaderWidget::initView()
 void ReaderWidget::initModel()
 {
     auto db = QSqlDatabase::database("Library");
-
     model = new ReaderModel(ui->tableView,db);
 
     //映射数据到info
@@ -112,10 +112,10 @@ void  ReaderWidget::newItem(bool checked)
     {
         ui->info->setStatusFor(Create);
         ui->info->clear();
-        model->insertItem();
+        qDebug()<<"newItem:"<<model->insertRow(0);
         ui->tableView->selectRow(0);
         emit ui->tableView->clicked(modelPtr()->index(0,0));
-        ui->tableView->setEnabled(false);
+        //ui->tableView->setEnabled(false);
         return;
     }
 
@@ -197,8 +197,10 @@ bool ReaderWidget::createItem(QSqlRecord &rec)
 
     if(ret && model->submitAll())
     {
-        ui->info->clear();
-        model->insertItem();
+
+        qDebug()<<"createItem:"<<model->insertRow(0);
+        ui->tableView->selectRow(0);
+        emit ui->tableView->clicked(model->index(0,0));
     }
 
     if(ret) model->revertAll();
@@ -230,4 +232,10 @@ void ReaderWidget::on_btn_reapply_clicked()
         }
     }
     modelPtr()->select();
+}
+
+void ReaderWidget::on_btn_type_clicked()
+{
+    ReaderType typeDialog(this);
+    typeDialog.exec();
 }

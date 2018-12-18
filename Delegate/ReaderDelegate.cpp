@@ -28,6 +28,15 @@ void ReaderDelegate::paint
 {
     if(index.column() == 1)
     {
+        QPalette::ColorGroup cg = (option.state & QStyle::State_Enabled) ?
+            (option.state & QStyle::State_Active) ?
+                        QPalette::Normal :
+                        QPalette::Inactive :
+                        QPalette::Disabled;
+
+        if (option.state & QStyle::State_Selected)
+            painter->fillRect(option.rect,option.palette.color(cg, QPalette::Highlight));
+
         auto rect = option.rect;
         painter->setBrush(QBrush(Qt::lightGray));
         painter->drawRect(rect);
@@ -43,19 +52,11 @@ void ReaderDelegate::paint
                         QPalette::Disabled;
 
         if (option.state & QStyle::State_Selected)
-            painter->fillRect(
-                        option.rect,
-                        option.palette.color(cg, QPalette::Highlight));
+            painter->fillRect(option.rect,option.palette.color(cg, QPalette::Highlight));
 
         auto data = index.data().toInt();
-        if(data == 0)
-            painter->drawText(option.rect,QString::fromLocal8Bit("正常") );
-        else if(data == 1)
-            painter->drawText(option.rect,QString::fromLocal8Bit("挂失"));
-        else if(data == 2)
-            painter->drawText(option.rect,QString::fromLocal8Bit("注销"));
-        else
-            QSqlRelationalDelegate::paint(painter,option,index);
+        painter->drawText(option.rect,Qt::AlignCenter,typeModel->index(data).data().toString());
+
         return;
     }
 
@@ -65,7 +66,7 @@ void ReaderDelegate::paint
 QSize ReaderDelegate::sizeHint
 (const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
-    return QSqlRelationalDelegate::sizeHint(option,index) + QSize(2,2);
+    return QSqlRelationalDelegate::sizeHint(option,index);// + QSize(2,2);
 }
 
 //edit

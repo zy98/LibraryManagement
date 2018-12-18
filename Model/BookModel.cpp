@@ -6,10 +6,6 @@
 BookModel::BookModel(QObject *parent, QSqlDatabase db):
     AbModel(parent,db)
 {
-    setFetchTable("Book");
-    setManulSubmit();
-
-
 
 }
 

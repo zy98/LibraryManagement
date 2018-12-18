@@ -140,31 +140,10 @@
           </property>
          </widget>
         </item>
-        <item row="0" column="7">
-         <widget class="QPushButton" name="btn_type">
+        <item row="0" column="4">
+         <widget class="QPushButton" name="btn_reset">
           <property name="text">
-           <string>读者类型管理</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="3">
-         <widget class="QPushButton" name="btn_user_disable">
-          <property name="text">
-           <string>注销</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="0">
-         <widget class="QPushButton" name="btn_loss">
-          <property name="text">
-           <string>挂失</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="6">
-         <widget class="QPushButton" name="btn_batch">
-          <property name="text">
-           <string>批量办理</string>
+           <string>重置密码</string>
           </property>
          </widget>
         </item>
@@ -175,10 +154,24 @@
           </property>
          </widget>
         </item>
-        <item row="0" column="4">
-         <widget class="QPushButton" name="btn_reset">
+        <item row="0" column="6">
+         <widget class="QPushButton" name="btn_type">
           <property name="text">
-           <string>重置密码</string>
+           <string>读者类型管理</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QPushButton" name="btn_loss">
+          <property name="text">
+           <string>挂失</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="3">
+         <widget class="QPushButton" name="btn_user_disable">
+          <property name="text">
+           <string>注销</string>
           </property>
          </widget>
         </item>

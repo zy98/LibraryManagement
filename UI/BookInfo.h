@@ -43,6 +43,8 @@ protected:
 private slots:
     void on_btn_submit_clicked();
 
+    void on_btn_upload_clicked();
+
 private:
     Ui::BookInfo *ui;
 };

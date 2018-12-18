@@ -67,17 +67,17 @@
     <widget class="QComboBox" name="bkStatus">
      <item>
       <property name="text">
-       <string>1</string>
+       <string>在馆</string>
       </property>
      </item>
      <item>
       <property name="text">
-       <string>2</string>
+       <string>借出</string>
       </property>
      </item>
      <item>
       <property name="text">
-       <string>3</string>
+       <string>销毁</string>
       </property>
      </item>
     </widget>

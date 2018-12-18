@@ -35,23 +35,26 @@
        </property>
        <layout class="QGridLayout" name="gridLayout">
         <item row="0" column="4">
-         <widget class="QCheckBox" name="checkBox_3">
+         <widget class="QCheckBox" name="chk_relend">
           <property name="text">
            <string>可续借</string>
           </property>
          </widget>
         </item>
         <item row="0" column="3">
-         <widget class="QCheckBox" name="checkBox_2">
+         <widget class="QCheckBox" name="chk_over">
           <property name="text">
            <string>逾期记录</string>
           </property>
          </widget>
         </item>
         <item row="0" column="6">
-         <widget class="QCheckBox" name="checkBox_4">
+         <widget class="QCheckBox" name="chk_all">
           <property name="text">
            <string>查看全部</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
           </property>
          </widget>
         </item>
@@ -70,7 +73,7 @@
          </widget>
         </item>
         <item row="0" column="5">
-         <widget class="QCheckBox" name="checkBox">
+         <widget class="QCheckBox" name="chk_noreturn">
           <property name="text">
            <string>只看未还</string>
           </property>
@@ -99,17 +102,10 @@
         <string>@_@</string>
        </property>
        <layout class="QGridLayout" name="gridLayout_2">
-        <item row="0" column="1">
+        <item row="0" column="0">
          <widget class="QPushButton" name="btn_returnBook">
           <property name="text">
            <string>还书</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="0">
-         <widget class="QPushButton" name="btn_lostBook">
-          <property name="text">
-           <string>报失</string>
           </property>
          </widget>
         </item>

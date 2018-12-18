@@ -32,6 +32,7 @@ public slots:
     void changeItem(bool checked){}
 
     void BorrowBook(long long book);
+    void ReturnBook(QItemSelectionModel* selection);
 
 protected:
     void initView(){}

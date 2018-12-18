@@ -1,12 +1,15 @@
 ﻿#include "BookInfo.h"
 #include "ui_BookInfo.h"
 #include <QDebug>
+#include <QFileDialog>
 
 BookInfo::BookInfo(QWidget *parent) :
     InfoWidget(parent),
     ui(new Ui::BookInfo)
 {
     ui->setupUi(this);
+    setWindowFlag(Qt::Dialog);
+    setWindowModality(Qt::WindowModal);
 
     connect(ui->btn_clear,SIGNAL(clicked()),this,SLOT(clear()));
 
@@ -56,12 +59,16 @@ void BookInfo::clear()
     ui->bkIntro->clear();
     ui->bkCover->clear();
     ui->bkNum->setValue(1);
-    ui->bkStatus->clear();
 }
 
 void BookInfo::readRecord(const QSqlRecord& rec)
 {
     record = rec;
+
+    QPixmap pix;
+    pix.loadFromData(rec.value(12).toByteArray());
+    ui->bkCover->setScaledContents(true);
+    ui->bkCover->setPixmap(pix);
 }
 
 void BookInfo::writeRecord(QSqlRecord& rec)
@@ -79,7 +86,9 @@ void BookInfo::writeRecord(QSqlRecord& rec)
     rec.setValue(9,ui->bkPrice->value());
     rec.setValue(10,ui->bkInDate->text());
     rec.setValue(11,ui->bkIntro->toPlainText());
+
     rec.setNull(12);
+
     rec.setValue(13,ui->bkStatus->currentIndex());
     rec.setValue(14,ui->bkNum->text());
 }
@@ -135,4 +144,25 @@ void BookInfo::on_btn_submit_clicked()
         emit new_data(rec);
     }
     ui->btn_submit->setEnabled(true);
+}
+
+void BookInfo::on_btn_upload_clicked()
+{
+    QString fileStr = QFileDialog::getOpenFileName
+            (this,U8("选择图片"),"","Images (*.png *.jpg)");
+
+    if(fileStr != "")
+    {
+        QFile file(fileStr);
+        QSharedPointer<QByteArray> data(new QByteArray);
+        file.open(QIODevice::ReadOnly);
+        *data = file.readAll();
+        qDebug()<<"data:"<<data->count();
+
+        QPixmap pix;
+        pix.loadFromData(*data);
+        ui->bkCover->setPixmap(pix);
+        ui->bkCover->setScaledContents(true);
+        emit updatePicture(data);
+    }
 }

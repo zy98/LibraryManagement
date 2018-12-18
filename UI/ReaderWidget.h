@@ -44,6 +44,8 @@ private slots:
 
     void on_btn_reapply_clicked();
 
+    void on_btn_type_clicked();
+
 private:
     void initView();
     void initModel();

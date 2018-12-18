@@ -15,7 +15,8 @@ BorrowWidget::BorrowWidget(QWidget *parent) :
     ui->book->setStatusFor(BorrowAdmin);
 
     connect(ui->book,SIGNAL(statusMes(const QString&,int)),this,SIGNAL(statusMes(const QString&,int)));
-    connect(ui->book,SIGNAL(borrowBook(long long)),this,SLOT(BorrowBook(long long)));    
+    connect(ui->book,SIGNAL(borrowBook(long long)),this,SLOT(BorrowBook(long long)));
+    connect(ui->borrow,SIGNAL(returnBook(QItemSelectionModel*)),this,SLOT(ReturnBook(QItemSelectionModel*)));
 }
 
 BorrowWidget::~BorrowWidget()
@@ -64,6 +65,7 @@ void BorrowWidget::on_btn_find_clicked()
     auto error = AbModel::seachReader(name,readerRec);
     if(error.type() != QSqlError::NoError)
     {
+        readerRec = QSqlRecord();
         emit statusMes(U8("找不到此人"),3000);
         return;
     }
@@ -89,6 +91,28 @@ void BorrowWidget::BorrowBook(long long book)
                 showError(error.text());
 
         ui->reader->readRecord(readerRec);
+    }
+}
+
+void BorrowWidget::ReturnBook(QItemSelectionModel* selection)
+{
+    if(!readerRec.isEmpty())
+    {
+        auto ret = static_cast<BorrowInfoModel*>(modelPtr());
+
+        if(ret->returnBook(selection))
+        {
+            ui->book->modelPtr()->select();//更新书
+
+            QString name = readerRec.value(0).toString();
+            ui->borrow->setReader(name);//更新借阅
+
+            auto error = AbModel::seachReader(name,readerRec);
+            if(error.type() != QSqlError::NoError)
+                    showError(error.text());
+
+            ui->reader->readRecord(readerRec);//更新读者
+        }
     }
 }
 

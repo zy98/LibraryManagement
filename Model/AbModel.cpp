@@ -104,7 +104,7 @@ bool AbModel::deleteItem(QItemSelectionModel* selection)
         for(auto& i : list)
         {
             ret = deleteRowFromTable(i.row());
-            if(ret) break;
+            if(!ret) break;
         }
     }
     ret = submitData();

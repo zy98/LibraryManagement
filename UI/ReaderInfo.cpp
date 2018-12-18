@@ -9,7 +9,6 @@
 #include "Model/ReaderModel.h"
 
 
-
 ReaderInfo::ReaderInfo(QWidget *parent) :
     InfoWidget(parent),
     ui(new Ui::ReaderInfo)
@@ -37,7 +36,12 @@ void ReaderInfo::readRecord(const QSqlRecord& rec)
         ui->edit_lend->setText(record.value(6).toString());
         ui->edit_dept->setText(record.value(7).toString());
         ui->date->setDate(record.value(8).toDate());
-        //ui->photo->setPicture(record.value(9).to)
+
+        QPixmap pix;
+        pix.loadFromData(record.value(9).toByteArray());
+        ui->photo->setScaledContents(true);
+        ui->photo->setPixmap(pix);
+
 
         auto status = record.value(10).toInt();
         ui->cmb_status->setCurrentIndex(status);
@@ -86,6 +90,13 @@ void ReaderInfo::setStatusFor(WidgetStatus status)
     {
         setEnable(true);
         ui->edit_id->setEnabled(false);
+    }
+    else if(status == BorrowAdmin)
+    {
+        ui->btn_loss->setHidden(true);
+        ui->btn_save->setHidden(true);
+        ui->btn_submit->setHidden(true);
+        ui->btn_upload->setHidden(true);
     }
     else
     {

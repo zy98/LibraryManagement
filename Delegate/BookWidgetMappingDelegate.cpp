@@ -1,46 +1,41 @@
-﻿#include "Delegate/ReaderWidgetMappingDelegate.h"
+﻿#include "BookWidgetMappingDelegate.h"
 
 #include <QComboBox>
 #include <QLabel>
-#include <QDebug>
 
-ReaderWidgetMappingDelegate::ReaderWidgetMappingDelegate(QObject* parent):
-    QStyledItemDelegate(parent)
+BookWidgetMappingDelegate::BookWidgetMappingDelegate(QObject* parent):QObject(parent)
 {
 
 }
 
-void ReaderWidgetMappingDelegate::setModelData
+void BookWidgetMappingDelegate::setModelData
 (QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const
 {
-    if(index.column() == 4)
+    if(index.column() == 13)
     {
         auto cmb = static_cast<QComboBox*>(editor);
         if(cmb)
-            model->setData(index,cmb->currentIndex() + 1);
-        return;
-    }
-    else if(index.column() == 10)
-    {
-        auto cmb = static_cast<QComboBox*>(editor);
-        if(cmb)
+        {
             model->setData(index,cmb->currentIndex());
-        return;
+            return;
+        }
     }
     QStyledItemDelegate::setModelData(editor,model,index);
 }
 
-void ReaderWidgetMappingDelegate::setEditorData
+void BookWidgetMappingDelegate::setEditorData
 (QWidget *editor, const QModelIndex &index) const
 {
-    if(index.column() == 10)
+    if(index.column() == 13)
     {
         auto cmb = static_cast<QComboBox*>(editor);
         if(cmb)
+        {
             cmb->setCurrentIndex(index.data().toInt());
-        return;
+            return;
+        }
     }
-    else if(index.column() == 9)
+    else if(index.column() == 12)
     {
         auto data = index.data().toByteArray();
         auto label = static_cast<QLabel*>(editor);
@@ -54,5 +49,5 @@ void ReaderWidgetMappingDelegate::setEditorData
         label->setPixmap(pix);
         return;
     }
-    QStyledItemDelegate::setEditorData(editor,index);
+    QStyledItemDelegate::setModelData(editor,model,index);
 }

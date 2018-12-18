@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ReaderType</class>
+ <widget class="QWidget" name="ReaderType">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>698</width>
+    <height>756</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QTableView" name="tableView">
+     <property name="contextMenuPolicy">
+      <enum>Qt::ActionsContextMenu</enum>
+     </property>
+    </widget>
+   </item>
+  </layout>
+  <action name="actionNew">
+   <property name="text">
+    <string>新建</string>
+   </property>
+  </action>
+  <action name="actionRemove">
+   <property name="text">
+    <string>删除</string>
+   </property>
+  </action>
+  <action name="actionSubmit">
+   <property name="text">
+    <string>提交</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

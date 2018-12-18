@@ -6,29 +6,27 @@
 #include <QItemDelegate>
 #include <ctime>
 
+#include <Delegate/BookDelegate.h>
+
 
 BookWidget::BookWidget(QWidget *parent) :
     Widget(parent),
-    ui(new Ui::BookWidget)
+    ui(new Ui::BookWidget),
+    bookInfo(this)
 {
     ui->setupUi(this);
-    bookInfo.setWindowFlags(Qt::Window);
-    ui->groupMatch->hide();
 
     initModel();
-    initView();
 
     connect(&bookInfo,SIGNAL(prev()),this,SLOT(prev()));
     connect(&bookInfo,SIGNAL(next()),this,SLOT(next()));
     connect(&bookInfo,SIGNAL(new_data(QSqlRecord&)),this,SLOT(createItem(QSqlRecord&)));
+    connect(&bookInfo,SIGNAL(updatePicture(QSharedPointer<QByteArray>)),
+             this,SLOT(updatePicture(QSharedPointer<QByteArray>)));
 }
 
 BookWidget::~BookWidget()
 {
-    bookInfo.hide();
-    bookInfo.close();
-    qDebug()<<"BookWidget::~BookWidget()";
-
     delete ui;
 }
 
@@ -42,18 +40,11 @@ bool BookWidget::setRecord(const QSqlRecord& rec)
 void BookWidget::initView()
 {
     ui->tableView->setModel(model);
+    ui->tableView->setItemDelegate(new BookDelegate(this));
     ui->tableView->setSelectionMode(QAbstractItemView::ExtendedSelection);
     ui->tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
 
-    //设置隐藏列
-    setColumnsHideFor(BookAdmin);
-
     ui->tableView->setSortingEnabled(true);
-
-
-//    由于自适应列宽占用大量时间，所以改为固定列宽；
-//    ui->tableView->resizeColumnsToContents();
-//    ui->tableView->resizeRowsToContents();
 
     //设置固定列宽
     ui->tableView->setColumnWidth(0,100);
@@ -77,7 +68,36 @@ void BookWidget::initModel()
 {
     auto db = QSqlDatabase::database("Library");
     model = new BookModel(ui->tableView,db);
+}
 
+void BookWidget::PrivateInitModel(WidgetStatus status)
+{
+    if(status == BookAdmin)
+    {
+        ui->groupBorrow->hide();
+        model->setFetchTable("Book");
+
+        //映射数据
+        QDataWidgetMapper* mapper = new QDataWidgetMapper(this);
+        mapper->setModel(model);
+        mapper->setSubmitPolicy(QDataWidgetMapper::AutoSubmit);
+        mapper->setItemDelegate(new QItemDelegate(mapper));
+        bookInfo.setWidgetMapper(mapper);
+        connect(ui->tableView,SIGNAL(clicked(const QModelIndex&)),
+                mapper,SLOT(setCurrentModelIndex(const QModelIndex&)));
+    }
+    else if(status == BorrowAdmin)
+    {
+        ui->groupBorrow->show();
+        model->setFetchTable("bookInLibrary");
+    }
+    else
+    {
+        ui->groupBorrow->hide();
+        model->setFetchTable("Book");
+    }
+
+    model->setManulSubmit();
     model->setHeaderData(0,Qt::Horizontal,U8("图书编号"));
     model->setHeaderData(1,Qt::Horizontal,U8("书名"));
     model->setHeaderData(2,Qt::Horizontal,U8("作者"));
@@ -94,52 +114,38 @@ void BookWidget::initModel()
     model->setHeaderData(13,Qt::Horizontal,U8("状态"));
     model->setHeaderData(14,Qt::Horizontal,U8("数量"));
 
-    //映射数据
-    QDataWidgetMapper* mapper = new QDataWidgetMapper(this);
-    mapper->setModel(model);
-    mapper->setSubmitPolicy(QDataWidgetMapper::AutoSubmit);
-    mapper->setItemDelegate(new QItemDelegate(mapper));
-    bookInfo.setWidgetMapper(mapper);
-    connect(ui->tableView,SIGNAL(clicked(const QModelIndex&)),
-            mapper,SLOT(setCurrentModelIndex(const QModelIndex&)));
-
-    //select 并不耗时，但最好还是不要初始化时直接select
-    //select时间和数据大小成正比
     if(!model->select())
         showError(model->dbError());
 }
-
-//void BookWidget::closeEvent(QCloseEvent* event)
-//{
-//    qDebug()<<"BookWidget::closeEvent(QCloseEvent* event)";
-//}
 
 //for BookAdmin BorrowAdmin Reader
 void BookWidget::setStatusFor(WidgetStatus status)
 {
     if(status == BookAdmin)
     {
-        ui->groupBorrow->hide();
-        //ui->groupMatch->show();
+        PrivateInitModel(BookAdmin);
+        initView();
+        ui->tableView->setEditTriggers(QTableView::DoubleClicked);
+        ui->tableView->setSelectionMode(QTableView::ExtendedSelection);
         setColumnsHideFor(BookAdmin);
-        model->setFetchTable("Book");
-        model->setAutoSubmit();
+
         return;
     }
-    else if(status == BorrowAdmin)
+    else if(status == BorrowAdmin || status == Reader)
     {
-        ui->groupBorrow->show();
-        ui->groupMatch->hide();
-        model->setFetchTable("bookInLibrary");
-        ui->tableView->setEditTriggers(QTableView::NoEditTriggers);
-        ui->tableView->setSelectionMode(QTableView::SingleSelection);
+        PrivateInitModel(BorrowAdmin);
+        initView();
         setColumnsHideFor(BorrowAdmin);
-        return;
+    }
+    else
+    {
+        PrivateInitModel(Reader);
+        initView();
+        setColumnsHideFor(Reader);
     }
 
-    ui->groupBorrow->hide();
-    ui->groupMatch->hide();
-    setColumnsHideFor(Reader);
+    ui->tableView->setEditTriggers(QTableView::NoEditTriggers);
+    ui->tableView->setSelectionMode(QTableView::SingleSelection);
 }
 
 void BookWidget::newItem(bool checked)
@@ -148,10 +154,16 @@ void BookWidget::newItem(bool checked)
     {
         bookInfo.clear();
         bookInfo.setStatusFor(Create);
+        model->insertItem();
+        ui->tableView->selectRow(0);
+        emit ui->tableView->clicked(modelPtr()->index(0,0));
+        ui->tableView->setEnabled(false);
         bookInfo.show();
         return;
     }
     bookInfo.setStatusFor(Display);
+    ui->tableView->setEnabled(true);
+    model->select();
     bookInfo.hide();
 }
 
@@ -164,9 +176,11 @@ void BookWidget::changeItem(bool checked)
         bookInfo.setStatusFor(Alter);
         return;
     }
+
     model->setManulSubmit();
     bookInfo.hide();
     bookInfo.setStatusFor(Display);
+
 }
 
 bool BookWidget::createItem(QSqlRecord& rec)
@@ -176,7 +190,9 @@ bool BookWidget::createItem(QSqlRecord& rec)
     if(ret && model->submitAll())
     {
         bookInfo.clear();
-        model->insertItem();
+        model->insertRow(0);
+        ui->tableView->selectRow(0);
+        emit ui->tableView->clicked(modelPtr()->index(0,0));
     }
     if(ret) model->revertAll();
 
@@ -206,6 +222,12 @@ void BookWidget::on_bkBtnFind_clicked()
 
     if(!model->selectItem(map,ui->ckb_find->isChecked()))
         showError(model->dbError());
+
+    for(int i = 0; i < model->columnCount();i++)
+        if( i == 4 || i == 11 || i == 12)
+            viewPtr()->setColumnHidden(i, true);
+        else
+            viewPtr()->setColumnHidden(i,false);
 }
 
 /////////////////////////////////////////////
@@ -224,18 +246,17 @@ void BookWidget::setColumnsHideFor(WidgetStatus status)
     {
         for(int i = 0; i < model->columnCount();i++)
             if( i >= 6 && i <= 12)
-                ui->tableView->setColumnHidden(i, true);
+                viewPtr()->setColumnHidden(i, true);
             else
-                ui->tableView->setColumnHidden(i,false);
+                viewPtr()->setColumnHidden(i,false);
+
+        return;
     }
-    else
-    {
-        for(int i = 0; i < model->columnCount();i++)
-            if( i == 4 || i ==11 || i == 12)
-                ui->tableView->setColumnHidden(i, true);
-            else
-                ui->tableView->setColumnHidden(i,false);
-    }
+    for(int i = 0; i < model->columnCount();i++)
+        if( i == 4 || i == 11 || i == 12)
+            viewPtr()->setColumnHidden(i, true);
+        else
+            viewPtr()->setColumnHidden(i,false);
 }
 
 QTableView* BookWidget::viewPtr()
