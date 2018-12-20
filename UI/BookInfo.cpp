@@ -67,7 +67,8 @@ void BookInfo::readRecord(const QSqlRecord& rec)
 
     QPixmap pix;
     pix.loadFromData(rec.value(12).toByteArray());
-    ui->bkCover->setScaledContents(true);
+    pix = pix.scaledToWidth(ui->bkCover->width());
+    //ui->bkCover->setScaledContents(true);
     ui->bkCover->setPixmap(pix);
 }
 
@@ -157,12 +158,13 @@ void BookInfo::on_btn_upload_clicked()
         QSharedPointer<QByteArray> data(new QByteArray);
         file.open(QIODevice::ReadOnly);
         *data = file.readAll();
-        qDebug()<<"data:"<<data->count();
 
         QPixmap pix;
         pix.loadFromData(*data);
+        pix = pix.scaledToWidth(ui->bkCover->width());
         ui->bkCover->setPixmap(pix);
-        ui->bkCover->setScaledContents(true);
+        
         emit updatePicture(data);
+
     }
 }

@@ -2,6 +2,7 @@
 
 #include <QDateEdit>
 #include <QPainter>
+#include <QApplication>
 
 BookDelegate::BookDelegate(QObject* parent):QSqlRelationalDelegate(parent)
 {
@@ -18,17 +19,9 @@ void BookDelegate::paint
 {
     if(index.column() == 13)
     {
-        QPalette::ColorGroup cg = (option.state & QStyle::State_Enabled) ?
-            (option.state & QStyle::State_Active) ?
-                        QPalette::Normal :
-                        QPalette::Inactive :
-                        QPalette::Disabled;
-
-        if (option.state & QStyle::State_Selected)
-            painter->fillRect(option.rect,option.palette.color(cg, QPalette::Highlight));
-
         int data = index.data().toInt();
-        painter->drawText(option.rect,Qt::AlignVCenter,statusModel->index(data).data().toString());
+        //painter->drawText(option.rect,Qt::AlignVCenter,statusModel->index(data).data().toString());
+        drawDisplay(painter,option,option.rect,statusModel->index(data).data().toString());
         return;
     }
     return QSqlRelationalDelegate::paint(painter,option,index);

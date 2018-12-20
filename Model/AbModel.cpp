@@ -14,7 +14,6 @@ AbModel::~AbModel(){}
 QSqlError AbModel::seachReader(const QString& name,QSqlRecord& rec)
 {
     QSqlError ret;
-    qDebug()<<ret;
     if(!name.isEmpty())
     {
         QSqlDatabase db = QSqlDatabase::database("Library");
@@ -24,7 +23,9 @@ QSqlError AbModel::seachReader(const QString& name,QSqlRecord& rec)
         if(query.exec() && query.first())
             rec = query.record();
         else
-            ret = db.lastError();
+            ret = query.lastError();
+
+
     }
     return ret;
 }
@@ -40,7 +41,7 @@ QSqlError AbModel::borrowBookProc(const QString& rdid, long long bkid)
     query.addBindValue(bkid);
 
     if( !query.exec())
-        ret = db.lastError();
+        ret = query.lastError();
 
     return ret;
 }
@@ -107,7 +108,7 @@ bool AbModel::deleteItem(QItemSelectionModel* selection)
             if(!ret) break;
         }
     }
-    ret = submitData();
+    ret = submitData() && select();
 
     return ret;
 }
@@ -122,7 +123,7 @@ bool AbModel::selectItem(const QMap<QString, QVariant> &filter, bool flag)
 
         auto i = filter.begin();
         QString filterStr = i.key() + token.arg(i.value().toString());
-        for(++i; i != filter.end(); i++)
+        for(++i; i != filter.end(); ++i)
             filterStr += QString(" and ") + i.key() + token.arg(i.value().toString());
 
        setFilter(filterStr);
@@ -134,12 +135,5 @@ bool AbModel::selectItem(const QMap<QString, QVariant> &filter, bool flag)
 bool AbModel::uploadPicture
 (QItemSelectionModel* selection, QSharedPointer<QByteArray> dataImg)
 {
-    bool ret = true;
-    auto list = selection->selectedRows(9);
-    if(list.size() == 1)
-        ret = setData(list[0],*dataImg);
-
-    ret = ret && submitData() && select();
-
-    return ret;
+    return selection != nullptr && !dataImg.isNull();
 }

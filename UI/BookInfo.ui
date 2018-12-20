@@ -272,9 +272,9 @@
     </widget>
    </item>
    <item row="13" column="6">
-    <widget class="QPushButton" name="btn_spliter">
+    <widget class="QPushButton" name="btn_save">
      <property name="text">
-      <string>并列显示</string>
+      <string>保存</string>
      </property>
     </widget>
    </item>

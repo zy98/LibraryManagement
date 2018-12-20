@@ -5,8 +5,10 @@
 #include <QDebug>
 #include <QItemDelegate>
 #include <ctime>
+#include <QAction>
 
 #include <Delegate/BookDelegate.h>
+#include <Delegate/BookWidgetMappingDelegate.h>
 
 
 BookWidget::BookWidget(QWidget *parent) :
@@ -80,9 +82,10 @@ void BookWidget::PrivateInitModel(WidgetStatus status)
         //映射数据
         QDataWidgetMapper* mapper = new QDataWidgetMapper(this);
         mapper->setModel(model);
+        mapper->setItemDelegate(new BookWidgetMappingDelegate(mapper));
         mapper->setSubmitPolicy(QDataWidgetMapper::AutoSubmit);
-        mapper->setItemDelegate(new QItemDelegate(mapper));
         bookInfo.setWidgetMapper(mapper);
+
         connect(ui->tableView,SIGNAL(clicked(const QModelIndex&)),
                 mapper,SLOT(setCurrentModelIndex(const QModelIndex&)));
     }
@@ -131,7 +134,7 @@ void BookWidget::setStatusFor(WidgetStatus status)
 
         return;
     }
-    else if(status == BorrowAdmin || status == Reader)
+    else if(status == BorrowAdmin)
     {
         PrivateInitModel(BorrowAdmin);
         initView();
@@ -148,54 +151,40 @@ void BookWidget::setStatusFor(WidgetStatus status)
     ui->tableView->setSelectionMode(QTableView::SingleSelection);
 }
 
-void BookWidget::newItem(bool checked)
+void BookWidget::newItem()
 {
-    if(checked)
-    {
-        bookInfo.clear();
-        bookInfo.setStatusFor(Create);
-        model->insertItem();
-        ui->tableView->selectRow(0);
-        emit ui->tableView->clicked(modelPtr()->index(0,0));
-        ui->tableView->setEnabled(false);
-        bookInfo.show();
-        return;
-    }
-    bookInfo.setStatusFor(Display);
-    ui->tableView->setEnabled(true);
     model->select();
-    bookInfo.hide();
+    bookInfo.setStatusFor(Create);
+    bookInfo.clear();
+    model->insertItem();
+    ui->tableView->selectRow(0);
+        emit ui->tableView->clicked(modelPtr()->index(0,0));
+    bookInfo.show();
 }
 
-void BookWidget::changeItem(bool checked)
+void BookWidget::changeItem()
 {
-    if(checked)
-    {
-        model->setAutoSubmit();
-        bookInfo.show();
-        bookInfo.setStatusFor(Alter);
-        return;
-    }
-
-    model->setManulSubmit();
-    bookInfo.hide();
-    bookInfo.setStatusFor(Display);
-
+    model->setAutoSubmit();
+    bookInfo.setStatusFor(Alter);
+    bookInfo.show();
 }
 
 bool BookWidget::createItem(QSqlRecord& rec)
 {
-    bool ret = Widget::createItem(rec);
+    model->select();
+    rec.remove(0);
+    bool ret = modelPtr()->insertRecord(0,rec);
 
-    if(ret && model->submitAll())
+    if(ret)
     {
+        if(!model->submitAll())
+            showError(model->dbError());
         bookInfo.clear();
-        model->insertRow(0);
-        ui->tableView->selectRow(0);
-        emit ui->tableView->clicked(modelPtr()->index(0,0));
     }
-    if(ret) model->revertAll();
-
+    else
+    {
+        model->revertAll();
+    }
     return ret;
 }
 
@@ -222,12 +211,6 @@ void BookWidget::on_bkBtnFind_clicked()
 
     if(!model->selectItem(map,ui->ckb_find->isChecked()))
         showError(model->dbError());
-
-    for(int i = 0; i < model->columnCount();i++)
-        if( i == 4 || i == 11 || i == 12)
-            viewPtr()->setColumnHidden(i, true);
-        else
-            viewPtr()->setColumnHidden(i,false);
 }
 
 /////////////////////////////////////////////

@@ -33,11 +33,9 @@ bool BorrowInfoModel::returnBook(QItemSelectionModel* selection)
         QSqlQuery query(db);
         query.prepare("exec usp_return_book @BorrowID = ? ");
         auto data = rowList.at(0).data().toLongLong();
-        qDebug()<<data;
         query.addBindValue(data);
 
         ret = query.exec();
-        qDebug()<<"ret:"<<ret;
     }
     return ret;
 }

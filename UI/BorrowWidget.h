@@ -28,8 +28,7 @@ public slots:
     void next();
     void prev();
 
-    void newItem(bool checked){}
-    void changeItem(bool checked){}
+
 
     void BorrowBook(long long book);
     void ReturnBook(QItemSelectionModel* selection);
@@ -44,11 +43,12 @@ private slots:
     void on_btn_find_clicked();
 
 private:
+    void newItem(){}
+    void changeItem(){}
+
     Widget* currentWidget();
 
     Ui::BorrowWidget *ui;
-
-    QSqlRecord readerRec;
 };
 
 #endif // BORROWWIDGET_H

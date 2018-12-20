@@ -45,18 +45,9 @@ void ReaderDelegate::paint
 
     if(index.column()  == 10)
     {
-        QPalette::ColorGroup cg = (option.state & QStyle::State_Enabled) ?
-            (option.state & QStyle::State_Active) ?
-                        QPalette::Normal :
-                        QPalette::Inactive :
-                        QPalette::Disabled;
-
-        if (option.state & QStyle::State_Selected)
-            painter->fillRect(option.rect,option.palette.color(cg, QPalette::Highlight));
-
         auto data = index.data().toInt();
-        painter->drawText(option.rect,Qt::AlignCenter,typeModel->index(data).data().toString());
-
+        //painter->drawText(option.rect,Qt::AlignCenter,typeModel->index(data).data().toString());
+        drawDisplay(painter,option,option.rect,typeModel->index(data).data().toString());
         return;
     }
 

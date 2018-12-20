@@ -29,8 +29,8 @@ public slots:
     void last();
     void next();
     void prev();
-    virtual void newItem(bool checked) = 0;
-    virtual void changeItem(bool checked) = 0;
+    virtual void newItem() = 0;
+    virtual void changeItem() = 0;
     virtual void deleteItem();
     virtual void submitItem();
     virtual void changePwd();

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>898</width>
-    <height>624</height>
+    <width>922</width>
+    <height>633</height>
    </rect>
   </property>
   <property name="font">
@@ -47,16 +47,13 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>898</width>
+     <width>922</width>
      <height>26</height>
     </rect>
    </property>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionNewItem">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
    <property name="text">
     <string>添加</string>
    </property>
@@ -65,9 +62,6 @@
    </property>
   </action>
   <action name="actionChangeItem">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
    <property name="text">
     <string>修改</string>
    </property>
@@ -89,26 +83,46 @@
    </property>
   </action>
   <action name="actionFirstRow">
+   <property name="icon">
+    <iconset resource="icon.qrc">
+     <normaloff>:/new/icon/Img/first.png</normaloff>:/new/icon/Img/first.png</iconset>
+   </property>
    <property name="text">
     <string>首行</string>
    </property>
   </action>
   <action name="actionLastRow">
+   <property name="icon">
+    <iconset resource="icon.qrc">
+     <normaloff>:/new/icon/Img/last.png</normaloff>:/new/icon/Img/last.png</iconset>
+   </property>
    <property name="text">
     <string>尾行</string>
    </property>
   </action>
   <action name="actionPrevRow">
+   <property name="icon">
+    <iconset resource="icon.qrc">
+     <normaloff>:/new/icon/Img/up.png</normaloff>:/new/icon/Img/up.png</iconset>
+   </property>
    <property name="text">
     <string>上一条</string>
    </property>
   </action>
   <action name="actionNextRow">
+   <property name="icon">
+    <iconset resource="icon.qrc">
+     <normaloff>:/new/icon/Img/down.png</normaloff>:/new/icon/Img/down.png</iconset>
+   </property>
    <property name="text">
     <string>下一条</string>
    </property>
   </action>
   <action name="actionDeleteItem">
+   <property name="icon">
+    <iconset resource="icon.qrc">
+     <normaloff>:/new/icon/Img/remove.png</normaloff>:/new/icon/Img/remove.png</iconset>
+   </property>
    <property name="text">
     <string>删除</string>
    </property>
@@ -120,6 +134,8 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="icon.qrc"/>
+ </resources>
  <connections/>
 </ui>

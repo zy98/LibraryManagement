@@ -56,29 +56,43 @@ void BorrowWidget::setStatusFor(WidgetStatus status)
     }
 
     ui->borrow->setStatusFor(Reader);
+
+    auto name = record.value("rdID").toString();
+    auto error = AbModel::seachReader(name,record);
+    if(error.type() != QSqlError::NoError)
+    {
+        record = QSqlRecord();
+        emit statusMes(U8("找不到此人"),3000);
+        return;
+    }
+
+    ui->reader->readRecord(record);
+    ui->borrow->setReader(name);
+
+    ui->group_find->hide();
     ui->book->setStatusFor(Reader);
 }
 
 void BorrowWidget::on_btn_find_clicked()
 {
     auto name = ui->edit_id->text();
-    auto error = AbModel::seachReader(name,readerRec);
+    auto error = AbModel::seachReader(name,record);
     if(error.type() != QSqlError::NoError)
     {
-        readerRec = QSqlRecord();
+        record = QSqlRecord();
         emit statusMes(U8("找不到此人"),3000);
         return;
     }
 
-    ui->reader->readRecord(readerRec);
+    ui->reader->readRecord(record);
     ui->borrow->setReader(name);
 }
 
 void BorrowWidget::BorrowBook(long long book)
 {
-    if(!readerRec.isEmpty())
+    if(!record.isEmpty())
     {
-        QString name = readerRec.value(0).toString();
+        QString name = record.value(0).toString();
         auto error = AbModel::borrowBookProc(name, book);
         if(error.type() != QSqlError::NoError)
             showError(error.text());
@@ -86,17 +100,21 @@ void BorrowWidget::BorrowBook(long long book)
 
         ui->book->modelPtr()->select();
         ui->borrow->setReader(name);
-        error = AbModel::seachReader(name,readerRec);
+        error = AbModel::seachReader(name,record);
+        qDebug()<<error.text()<<error.isValid();
+        qDebug()<<error.type();
         if(error.type() != QSqlError::NoError)
+        {
                 showError(error.text());
+        }
 
-        ui->reader->readRecord(readerRec);
+        ui->reader->readRecord(record);
     }
 }
 
 void BorrowWidget::ReturnBook(QItemSelectionModel* selection)
 {
-    if(!readerRec.isEmpty())
+    if(!record.isEmpty())
     {
         auto ret = static_cast<BorrowInfoModel*>(modelPtr());
 
@@ -104,14 +122,14 @@ void BorrowWidget::ReturnBook(QItemSelectionModel* selection)
         {
             ui->book->modelPtr()->select();//更新书
 
-            QString name = readerRec.value(0).toString();
+            QString name = record.value(0).toString();
             ui->borrow->setReader(name);//更新借阅
 
-            auto error = AbModel::seachReader(name,readerRec);
+            auto error = AbModel::seachReader(name,record);
             if(error.type() != QSqlError::NoError)
                     showError(error.text());
 
-            ui->reader->readRecord(readerRec);//更新读者
+            ui->reader->readRecord(record);//更新读者
         }
     }
 }

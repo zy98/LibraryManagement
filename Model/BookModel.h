@@ -13,6 +13,8 @@ public:
     BookModel(QObject *parent = nullptr, QSqlDatabase db = QSqlDatabase());
 
     bool fillRowItem(int row, QSqlRecord &rec);
+
+    bool uploadPicture(QItemSelectionModel* selection, QSharedPointer<QByteArray> dataImg);
 };
 
 #endif // BOOKMODEL_H

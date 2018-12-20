@@ -23,8 +23,6 @@ MainWindow::MainWindow(QWidget *parent, const QSqlRecord &rec) :
     setStatusMsg(name + Widget::TU8("  登陆成功"));
 
     connect(ui->actionExit,SIGNAL(triggered()),this,SLOT(reLogin()));
-    connect(ui->actionNewItem,SIGNAL(triggered(bool)),this,SLOT(createAction(bool)));
-    connect(ui->actionChangeItem,SIGNAL(triggered(bool)),this,SLOT(alterAction(bool)));
 }
 
 MainWindow::~MainWindow()
@@ -52,7 +50,6 @@ void MainWindow::reLogin()
     LoginDialog dialog;
     if(dialog.exec() != QDialog::Accepted)
     {
-        //qApp->quit();
         this->close();
         return;
     }
@@ -62,27 +59,27 @@ void MainWindow::reLogin()
     this->show();
 }
 
-void MainWindow::createAction(bool status)
-{
-    ui->actionFirstRow->setEnabled(!status);
-    ui->actionLastRow->setEnabled(!status);
-    ui->actionNextRow->setEnabled(!status);
-    ui->actionPrevRow->setEnabled(!status);
+//void MainWindow::createAction(bool status)
+//{
+//    ui->actionFirstRow->setEnabled(!status);
+//    ui->actionLastRow->setEnabled(!status);
+//    ui->actionNextRow->setEnabled(!status);
+//    ui->actionPrevRow->setEnabled(!status);
 
-    ui->actionChangeItem->setEnabled(!status);
-    ui->actionDeleteItem->setEnabled(!status);
-    ui->actionSubmit->setEnabled(!status);
-    ui->actionChangePwd->setEnabled(!status);
-    ui->actionExit->setEnabled(!status);
-}
-void MainWindow::alterAction(bool status)
-{
-    ui->actionNewItem->setEnabled(!status);
-    ui->actionDeleteItem->setEnabled(!status);
-    ui->actionSubmit->setEnabled(!status);
-    ui->actionChangePwd->setEnabled(!status);
-    ui->actionExit->setEnabled(!status);
-}
+//    ui->actionChangeItem->setEnabled(!status);
+//    ui->actionDeleteItem->setEnabled(!status);
+//    ui->actionSubmit->setEnabled(!status);
+//    ui->actionChangePwd->setEnabled(!status);
+//    ui->actionExit->setEnabled(!status);
+//}
+//void MainWindow::alterAction(bool status)
+//{
+//    ui->actionNewItem->setEnabled(!status);
+//    ui->actionDeleteItem->setEnabled(!status);
+//    ui->actionSubmit->setEnabled(!status);
+//    ui->actionChangePwd->setEnabled(!status);
+//    ui->actionExit->setEnabled(!status);
+//}
 
 Widget *MainWindow::initWiget(const QSqlRecord& rec)
 {
@@ -125,8 +122,8 @@ void MainWindow::connectWidget()
     connect(ui->actionLastRow,SIGNAL(triggered()),widget,SLOT(last()));
     connect(ui->actionPrevRow,SIGNAL(triggered()),widget,SLOT(prev()));
     connect(ui->actionNextRow,SIGNAL(triggered()),widget,SLOT(next()));
-    connect(ui->actionNewItem,SIGNAL(triggered(bool)),widget,SLOT(newItem(bool)));
-    connect(ui->actionChangeItem,SIGNAL(triggered(bool)),widget,SLOT(changeItem(bool)));
+    connect(ui->actionNewItem,SIGNAL(triggered()),widget,SLOT(newItem()));
+    connect(ui->actionChangeItem,SIGNAL(triggered()),widget,SLOT(changeItem()));
     connect(ui->actionSubmit,SIGNAL(triggered()),widget,SLOT(submitItem()));
     connect(ui->actionDeleteItem,SIGNAL(triggered()),widget,SLOT(deleteItem()));
     connect(ui->actionChangePwd,SIGNAL(triggered()),widget,SLOT(changePwd()));
@@ -149,7 +146,7 @@ void MainWindow::setStatusFor(WidgetStatus status)
         widget->setStatusFor(BookAdmin);
         setActionVisable(true);
         ui->actionNewItem->setText(Widget::TU8("新书入库"));
-        ui->actionChangeItem->setText(Widget::TU8("信息维护"));
+        ui->actionChangeItem->setText(Widget::TU8("详细信息"));
         return;
     }
     else if (status == BorrowAdmin)

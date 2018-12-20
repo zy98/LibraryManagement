@@ -24,8 +24,6 @@ public slots:
 
 private slots:
     void reLogin();
-    void createAction(bool status);
-    void alterAction(bool status);
 
 private:
     Ui::MainWindow *ui;

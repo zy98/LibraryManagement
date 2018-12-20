@@ -59,7 +59,7 @@
          </widget>
         </item>
         <item row="0" column="2">
-         <widget class="QPushButton" name="pushButton_3">
+         <widget class="QPushButton" name="btn_search">
           <property name="text">
            <string>搜索</string>
           </property>
@@ -80,14 +80,14 @@
          </widget>
         </item>
         <item row="0" column="1">
-         <widget class="QLineEdit" name="lineEdit">
+         <widget class="QLineEdit" name="edit_bkid">
           <property name="placeholderText">
            <string>图书编号</string>
           </property>
          </widget>
         </item>
         <item row="0" column="0">
-         <widget class="QLineEdit" name="lineEdit_2">
+         <widget class="QLineEdit" name="edit_rdid">
           <property name="placeholderText">
            <string>读者编号</string>
           </property>

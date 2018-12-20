@@ -15,6 +15,8 @@ public:
 
     static QSqlError setLoss(const QString& name);
 
+    bool uploadPicture(QItemSelectionModel* selection, QSharedPointer<QByteArray> dataImg);
+
     bool setRdStatusLoss(QItemSelectionModel* selection);
     bool setRdStatusNomal(QItemSelectionModel* selection);
     bool setRdStatusDisabled(QItemSelectionModel* selection);

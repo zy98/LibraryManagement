@@ -39,6 +39,7 @@ void ReaderInfo::readRecord(const QSqlRecord& rec)
 
         QPixmap pix;
         pix.loadFromData(record.value(9).toByteArray());
+        pix = pix.scaledToWidth(ui->photo->width());
         ui->photo->setScaledContents(true);
         ui->photo->setPixmap(pix);
 
@@ -126,10 +127,10 @@ void ReaderInfo::on_btn_upload_clicked()
         QSharedPointer<QByteArray> data(new QByteArray);
         file.open(QIODevice::ReadOnly);
         *data = file.readAll();
-        qDebug()<<"data:"<<data->count();
 
         QPixmap pix;
         pix.loadFromData(*data);
+        pix = pix.scaledToWidth(ui->photo->width());
         ui->photo->setPixmap(pix);
         ui->photo->setScaledContents(true);
         emit updatePicture(data);
@@ -213,4 +214,9 @@ void ReaderInfo::clear()
 void ReaderInfo::on_cmb_status_currentIndexChanged(int index)
 {
     ui->btn_loss->setEnabled(!index);
+}
+
+void ReaderInfo::on_btn_save_clicked()
+{
+
 }

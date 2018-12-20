@@ -47,6 +47,8 @@ private slots:
 
     void on_cmb_status_currentIndexChanged(int index);
 
+    void on_btn_save_clicked();
+
 private:
     //设置禁用/启用lineedit控件
     void setEnable(bool flag);

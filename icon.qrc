@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/new/icon">
+        <file>Img/down.png</file>
+        <file>Img/first.png</file>
+        <file>Img/up.png</file>
+        <file>Img/last.png</file>
+        <file>Img/library.png</file>
+        <file>Img/remove.png</file>
+    </qresource>
+</RCC>

@@ -264,7 +264,43 @@
        </widget>
       </item>
       <item row="6" column="1">
-       <widget class="QComboBox" name="cmb_typeid"/>
+       <widget class="QComboBox" name="cmb_typeid">
+        <item>
+         <property name="text">
+          <string>系统管理员</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>借阅管理员</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>图书管理员</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>教师</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>本科生</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>硕士生</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>专科生</string>
+         </property>
+        </item>
+       </widget>
       </item>
       <item row="6" column="2">
        <widget class="QPushButton" name="btn_loss">

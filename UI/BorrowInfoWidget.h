@@ -27,9 +27,6 @@ public:
 
     void setStatusFor(WidgetStatus status);
 
-    void newItem(bool checked){}
-    void changeItem(bool checked){}
-
     void initView();
     void initModel();
 
@@ -43,7 +40,14 @@ private slots:
     void on_btn_returnBook_clicked();
     void BtnFilter(int id);
 
+    void on_btn_search_clicked();
+
+    void on_btn_reLend_clicked();
+
 private:
+    void newItem(){}
+    void changeItem(){}
+
     Ui::BorrowInfoWidget *ui;
     BorrowInfoModel* model;
 };

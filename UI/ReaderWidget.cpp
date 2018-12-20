@@ -23,6 +23,8 @@ ReaderWidget::ReaderWidget(QWidget *parent) :
     initModel();
     initView();
 
+    ui->info->setStatusFor(Alter);
+
     //设置读者类型model
     //ui->info->setReaderType(ui->cmb_type->model());
 
@@ -106,35 +108,20 @@ bool ReaderWidget::setRecord(const QSqlRecord& rec)
     return ret;
 }
 
-void  ReaderWidget::newItem(bool checked)
+void  ReaderWidget::newItem()
 {
-    if(checked)
-    {
-        ui->info->setStatusFor(Create);
-        ui->info->clear();
-        qDebug()<<"newItem:"<<model->insertRow(0);
-        ui->tableView->selectRow(0);
-        emit ui->tableView->clicked(modelPtr()->index(0,0));
-        //ui->tableView->setEnabled(false);
-        return;
-    }
-
-    ui->info->setStatusFor(Display);
-    ui->tableView->setEnabled(true);
     model->select();
+    ui->info->setStatusFor(Create);
+    ui->info->clear();
+    model->insertItem();
+    ui->tableView->selectRow(0);
+    emit ui->tableView->clicked(modelPtr()->index(0,0));
 }
 
-void  ReaderWidget::changeItem(bool checked)
+void  ReaderWidget::changeItem()
 {
-    if(checked)
-    {
-        model->setAutoSubmit();
-        ui->info->setStatusFor(Alter);
-        return;
-    }
-    model->setManulSubmit();
-    ui->info->setStatusFor(Display);
-    model->select();
+    model->setAutoSubmit();
+    ui->info->setStatusFor(Alter);
 }
 
 //可以使用map
@@ -193,18 +180,19 @@ AbModel* ReaderWidget::modelPtr()
 
 bool ReaderWidget::createItem(QSqlRecord &rec)
 {
-    bool ret = Widget::createItem(rec);
+    model->select();
+    bool ret = modelPtr()->insertRecord(0, rec);
 
-    if(ret && model->submitAll())
+    if(ret)
     {
-
-        qDebug()<<"createItem:"<<model->insertRow(0);
-        ui->tableView->selectRow(0);
-        emit ui->tableView->clicked(model->index(0,0));
+        if(!model->submitAll())
+            showError(model->dbError());
+        ui->info->clear();
     }
-
-    if(ret) model->revertAll();
-
+    else
+    {
+        model->revertAll();
+    }
     return ret;
 }
 

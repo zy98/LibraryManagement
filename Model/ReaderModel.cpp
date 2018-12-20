@@ -45,7 +45,7 @@ QSqlError ReaderModel::setLoss(const QString& name)
     query.addBindValue(name);
 
     if(!query.exec())
-        ret = db.lastError();
+        ret = query.lastError();
 
     return ret;
 }
@@ -148,4 +148,15 @@ bool ReaderModel::reapply(QItemSelectionModel* selection,QSqlRecord& rec)
     query.addBindValue(id.at(0));
     ret = query.exec();
     return ret;
+}
+
+bool ReaderModel::uploadPicture
+(QItemSelectionModel* selection, QSharedPointer<QByteArray> dataImg)
+{
+    bool ret = true;
+    auto list = selection->selectedRows(9);
+    if(list.size() == 1)
+        ret = setData(list[0],*dataImg);
+
+    return ret && submitData();
 }

@@ -22,8 +22,8 @@ public:
     AbModel* modelPtr();
 
 public slots:
-    void newItem(bool checked);
-    void changeItem(bool checked);
+    void newItem();
+    void changeItem();
 
     bool setRecord(const QSqlRecord& rec);
     bool createItem(QSqlRecord &rec);

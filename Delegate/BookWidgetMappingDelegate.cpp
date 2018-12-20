@@ -2,8 +2,9 @@
 
 #include <QComboBox>
 #include <QLabel>
+#include <QDebug>
 
-BookWidgetMappingDelegate::BookWidgetMappingDelegate(QObject* parent):QObject(parent)
+BookWidgetMappingDelegate::BookWidgetMappingDelegate(QObject* parent):QStyledItemDelegate(parent)
 {
 
 }
@@ -37,17 +38,21 @@ void BookWidgetMappingDelegate::setEditorData
     }
     else if(index.column() == 12)
     {
+        qDebug()<<"clear begin";
         auto data = index.data().toByteArray();
         auto label = static_cast<QLabel*>(editor);
         if(data.size() <= 0 || label == nullptr)
         {
+            qDebug()<<"clear -1 return";
             label->clear();
             return;
         }
+        qDebug()<<"clear 0 return";
         QPixmap pix;
         pix.loadFromData(index.data().toByteArray());
+        pix = pix.scaledToWidth(label->width());
         label->setPixmap(pix);
         return;
     }
-    QStyledItemDelegate::setModelData(editor,model,index);
+    QStyledItemDelegate::setEditorData(editor,index);
 }
